@@ -3,16 +3,12 @@
         <div class="w-full sm:max-w-lg mt-2 bg-white shadow overflow-hidden">
             <div class="w-full">
                 <div class="w-full bg-gray-100 p-4 text-lg">
-                    Welcome To Dashboard
+                    Verify Your Email Address !
                 </div>
                 <div class="bg-white p-4">
-                    <div class="flex text-md font-semibold">
-                        <div>Name:</div>
-                        <div class="ml-2">{{ AuthUser.name }}</div>
-                    </div>
-                    <div class="flex text-md font-semibold">
-                        <div>Email:</div>
-                        <div class="ml-2">{{ AuthUser.email }}</div>
+                    <div class="text-md font-semibold">
+                        <div>if you are not received verification email , click verify email below !!</div>
+                        <div class="ml-2 mt-2 text-blue-400 hover:underline">Verify Email</div>
                     </div>
                 </div>
             </div>

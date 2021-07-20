@@ -47,6 +47,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -56,6 +70,11 @@ __webpack_require__.r(__webpack_exports__);
         remember: false
       }
     };
+  },
+  computed: {
+    EmailVerifyMessage: function EmailVerifyMessage() {
+      return this.$store.getters.EmailVerifyMessage;
+    }
   },
   methods: {
     GetUser: function GetUser() {
@@ -111,6 +130,9 @@ __webpack_require__.r(__webpack_exports__);
           _this2.$store.commit('SET_TOAST', false);
         }, 3000);
       });
+    },
+    EmailVerifyMessageHide: function EmailVerifyMessageHide() {
+      this.$store.state.EmailVerifyMessage = false;
     }
   }
 });
@@ -217,6 +239,56 @@ var render = function() {
         },
         [
           _c("div", { staticClass: "w-full" }, [
+            _vm.EmailVerifyMessage
+              ? _c(
+                  "div",
+                  {
+                    staticClass:
+                      "text-md font-semibold p-1 bg-green-500 rounded text-white mt-2 mb-3"
+                  },
+                  [
+                    _c("div", { staticClass: "flex justify-between" }, [
+                      _c("div", { staticClass: "ml-4 p-1" }, [
+                        _vm._v(
+                          "\n                        Verify Your Email !\n                    "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "mr-2 mt-1",
+                          on: { click: _vm.EmailVerifyMessageHide }
+                        },
+                        [
+                          _c(
+                            "svg",
+                            {
+                              staticClass: "bi bi-x",
+                              attrs: {
+                                xmlns: "http://www.w3.org/2000/svg",
+                                width: "25",
+                                height: "25",
+                                fill: "currentColor",
+                                viewBox: "0 0 16 16"
+                              }
+                            },
+                            [
+                              _c("path", {
+                                attrs: {
+                                  d:
+                                    "M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+                                }
+                              })
+                            ]
+                          )
+                        ]
+                      )
+                    ])
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
             _c("div", { staticClass: "container my-2 mx-auto px-2" }, [
               _c(
                 "form",

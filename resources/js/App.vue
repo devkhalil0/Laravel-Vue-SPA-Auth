@@ -18,9 +18,7 @@
                         </div>
                     </div>
                     <div class="hidden sm:flex sm:items-center sm:ml-6">
-                        <div @click="chk">
-                            cjeck
-                        </div>
+                        
                         <!-- Settings Dropdown -->
                         <div v-if="Authenticated" class="ml-3 relative">
                             <dropdown align="right" width="48">
@@ -154,12 +152,7 @@ export default {
                     }, 3000);
                 })
             },
-            chk(){
-                axios.get('/api/authenticated')
-                .then((res) =>{
-                    console.log(res);
-                })
-            }
+            
         }
 }
 </script>

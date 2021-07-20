@@ -1967,8 +1967,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2005,11 +2003,6 @@ __webpack_require__.r(__webpack_exports__);
         setTimeout(function () {
           _this.$store.commit('SET_TOAST', false);
         }, 3000);
-      });
-    },
-    chk: function chk() {
-      axios.get('/api/authenticated').then(function (res) {
-        console.log(res);
       });
     }
   }
@@ -2312,6 +2305,12 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
       return __webpack_require__.e(/*! import() */ "resources_js_Components_Auth_Password_ConfirmPassword_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Components/Auth/Password/ConfirmPassword.vue */ "./resources/js/Components/Auth/Password/ConfirmPassword.vue"));
     }
   }, {
+    path: "/verify-email",
+    name: "Verify-Email",
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_Components_Auth_VerifyEmail_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Components/Auth/VerifyEmail.vue */ "./resources/js/Components/Auth/VerifyEmail.vue"));
+    }
+  }, {
     path: "/register",
     name: "Register",
     component: function component() {
@@ -2320,7 +2319,7 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
     beforeEnter: function beforeEnter(to, from, next) {
       if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Authenticated === true) {
         _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
-        _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'You are Authenticated !';
+        _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'You are authenticated !';
         setTimeout(function () {
           _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
         }, 3000);
@@ -2336,6 +2335,31 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
     name: "Dashboard",
     component: function component() {
       return __webpack_require__.e(/*! import() */ "resources_js_Components_User_Dashboard_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Components/User/Dashboard.vue */ "./resources/js/Components/User/Dashboard.vue"));
+    },
+    beforeEnter: function beforeEnter(to, from, next) {
+      axios.get('/api/authenticated').then(function () {
+        if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.AuthUser.email_verified_at === null) {
+          _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'Please Verify Your Email !';
+          _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
+          setTimeout(function () {
+            _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
+          }, 2000);
+          return next({
+            name: 'Verify-Email'
+          });
+        } else {
+          next();
+        }
+      })["catch"](function () {
+        _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'You are not authenticated !';
+        _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
+        setTimeout(function () {
+          _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
+        }, 2000);
+        return next({
+          name: 'Login'
+        });
+      });
     }
   } // {
   //   path: "/:catchAll(.*)",
@@ -2373,7 +2397,9 @@ __webpack_require__.r(__webpack_exports__);
     AuthUser: [],
     Authenticated: false,
     // Admin Check 
-    IsAdmin: false
+    IsAdmin: false,
+    // Email Verification 
+    EmailVerifyMessage: false
   },
   actions: {
     authUser: function authUser(_ref) {
@@ -2447,6 +2473,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     Authenticated: function Authenticated(state) {
       return state.Authenticated;
+    },
+    EmailVerifyMessage: function EmailVerifyMessage(state) {
+      return state.EmailVerifyMessage;
     }
   }
 });
@@ -20961,12 +20990,6 @@ var render = function() {
               "div",
               { staticClass: "hidden sm:flex sm:items-center sm:ml-6" },
               [
-                _c("div", { on: { click: _vm.chk } }, [
-                  _vm._v(
-                    "\n                        cjeck\n                    "
-                  )
-                ]),
-                _vm._v(" "),
                 _vm.Authenticated
                   ? _c(
                       "div",
@@ -38480,7 +38503,7 @@ var index = {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_Components_Home_vue":1,"resources_js_Components_Auth_Login_vue":1,"resources_js_Components_Auth_Password_ForgetPassword_vue":1,"resources_js_Components_Auth_Password_ConfirmPassword_vue":1,"resources_js_Components_Auth_Register_vue":1,"resources_js_Components_User_Dashboard_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_Components_Home_vue":1,"resources_js_Components_Auth_Login_vue":1,"resources_js_Components_Auth_Password_ForgetPassword_vue":1,"resources_js_Components_Auth_Password_ConfirmPassword_vue":1,"resources_js_Components_Auth_VerifyEmail_vue":1,"resources_js_Components_Auth_Register_vue":1,"resources_js_Components_User_Dashboard_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

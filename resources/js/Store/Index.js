@@ -11,6 +11,8 @@ export default {
         Authenticated: false,
         // Admin Check 
         IsAdmin: false,
+        // Email Verification 
+        EmailVerifyMessage: false,
     },
     actions: {
         authUser ({ commit, dispatch }) {
@@ -75,6 +77,9 @@ export default {
         },
         Authenticated(state){
             return state.Authenticated;
+        },
+        EmailVerifyMessage(state){
+            return state.EmailVerifyMessage;
         },
 
      }

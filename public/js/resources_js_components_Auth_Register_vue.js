@@ -76,6 +76,12 @@ __webpack_require__.r(__webpack_exports__);
           _this.form.email = '';
           _this.form.password = '';
           _this.form.password_confirmation = '';
+
+          _this.$router.push({
+            name: 'Login'
+          });
+
+          _this.$store.state.EmailVerifyMessage = true;
         }
 
         if (res.data.errors) {

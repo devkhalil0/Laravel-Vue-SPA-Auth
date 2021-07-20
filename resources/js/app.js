@@ -30,8 +30,8 @@ Vue.mixin
                 return  this.$store.getters.AuthUser;
             },
             CurrentRoute(){
-            return this.$route.name;
-            }
+                return this.$route.name;
+            },
         },
    
     })
