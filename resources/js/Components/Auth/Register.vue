@@ -59,13 +59,27 @@
                         setTimeout(() => {
                              this.$store.commit('SET_TOAST', false);
                         }, 3000);
+                        this.form.name = '';
+                        this.form.email = '';
+                        this.form.password = '';
+                        this.form.password_confirmation = '';
                     }
                     if(res.data.errors){
-                        console.log('errors');
+                        this.form.password = '';
+                        this.form.password_confirmation = '';
+                        this.$store.commit('SET_TOAST', 'Errors');
+                        this.$store.commit('SET_ToastMessage', res.data.errors);
+                        setTimeout(() => {
+                             this.$store.commit('SET_TOAST', false);
+                        }, 3000);
                     }
                 })
                 .catch((e) =>{
-                    console.log(e);
+                    this.$store.commit('SET_TOAST', 'Warning');
+                    this.$store.commit('SET_ToastMessage', 'Something Is Wrong !');
+                    setTimeout(() => {
+                            this.$store.commit('SET_TOAST', false);
+                    }, 3000);
                 })
             }
         }

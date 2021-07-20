@@ -56,6 +56,62 @@ __webpack_require__.r(__webpack_exports__);
         remember: false
       }
     };
+  },
+  methods: {
+    GetUser: function GetUser() {
+      var _this = this;
+
+      axios.get('/api/user').then(function (res) {
+        _this.$store.commit('SET_AUTHUSER', res.data);
+
+        _this.$store.commit('SET_AUTHENTICATED', true);
+
+        localStorage.setItem("auth", true);
+      });
+    },
+    submit: function submit() {
+      var _this2 = this;
+
+      axios.post('api/login', this.form).then(function (res) {
+        if (res.data.success) {
+          _this2.$store.commit('SET_TOAST', 'Success');
+
+          _this2.$store.commit('SET_ToastMessage', res.data.success);
+
+          setTimeout(function () {
+            _this2.$store.commit('SET_TOAST', false);
+          }, 3000);
+          _this2.form.email = '';
+          _this2.form.password = '';
+
+          _this2.GetUser();
+
+          _this2.$router.push({
+            name: 'Dashboard'
+          });
+        }
+
+        if (res.data.errors) {
+          _this2.form.password = '';
+
+          _this2.$store.commit('SET_TOAST', 'Errors');
+
+          _this2.$store.commit('SET_ToastMessage', res.data.errors);
+
+          setTimeout(function () {
+            _this2.$store.commit('SET_TOAST', false);
+          }, 3000);
+        }
+      })["catch"](function (e) {
+        _this2.$store.commit('SET_TOAST', 'Warning');
+
+        _this2.$store.commit('SET_ToastMessage', 'Something Is Wrong !');
+
+        setTimeout(function () {
+          _this2.$store.commit('SET_TOAST', false);
+        }, 3000);
+      });
+    }
   }
 });
 

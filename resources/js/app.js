@@ -19,10 +19,39 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 import StoreVuex from './Store/Index'
 const store = new Vuex.Store(StoreVuex)
+// mixin 
+Vue.mixin
+ ({
+    computed:{
+            Authenticated(){
+                return  this.$store.getters.Authenticated;
+            },
+            AuthUser(){
+                return  this.$store.getters.AuthUser;
+            },
+            CurrentRoute(){
+            return this.$route.name;
+            }
+        },
+   
+    })
+let auth = localStorage.getItem("auth");
 
 
-const app = new Vue({
-    router,
-    store,
-    el: '#app',
-});
+if(auth){
+    store.dispatch('authUser').then(() => {
+    // store.dispatch('checkAdmin');
+    
+        const app = new Vue({
+            store,
+            router,
+            el: '#app',
+        });
+    });
+}else {
+    const app = new Vue({
+        store,
+        router,
+        el: '#app',
+    });
+}

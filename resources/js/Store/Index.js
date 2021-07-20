@@ -3,31 +3,36 @@ import router from '../Router/Index'
 export default {
 
     state: {
-        // Toast Status 
+        // Toast Status
         Toast: false,
         ToastMessage: null,
+        // Auth User
+        AuthUser: [],
+        Authenticated: false,
+        // Admin Check 
+        IsAdmin: false,
     },
-    actions: { 
-        // authUser ({ commit, dispatch }) {
-        //     return axios.get('/api/user').then((response) => {
-        //         commit('SET_AUTHENTICATED', true)
-        //         commit('SET_AUTHUSER', response.data)
-        //         localStorage.setItem("auth", true);
-                
-        //         if(router.currentRoute.name !== null){
-        //             router.push({ name: 'Dashboard' })
-        //         };
+    actions: {
+        authUser ({ commit, dispatch }) {
+            return axios.get('/api/user').then((response) => {
+                commit('SET_AUTHENTICATED', true)
+                commit('SET_AUTHUSER', response.data)
+                localStorage.setItem("auth", true);
 
-        //     }).catch(() => {
-        //         commit('SET_AUTHENTICATED', false)
-        //         commit('SET_AUTHUSER', null)
-        //         localStorage.removeItem("auth");
+                if(router.currentRoute.name !== null){
+                    router.push({ name: 'Dashboard' })
+                };
 
-        //         if(this.CurrentRoute != 'Login'){
-        //             router.push({ name: 'Login' })
-        //         };
-        //     })
-        // },
+            }).catch(() => {
+                commit('SET_AUTHENTICATED', false)
+                commit('SET_AUTHUSER', null)
+                localStorage.removeItem("auth");
+
+                if(this.CurrentRoute != 'Login'){
+                    router.push({ name: 'Login' })
+                };
+            })
+        },
         // checkAdmin({commit, dispatch}){
         //     return axios.get('/api/authenticated/admin')
         //     .then((res) => {
@@ -50,13 +55,28 @@ export default {
         },
         SET_ToastMessage(state, message){
             state.ToastMessage = message;
-        }
+        },
+        SET_AUTHUSER (state, user) {
+            state.AuthUser = user;
+        },
+        SET_AUTHENTICATED (state, data) {
+            state.Authenticated = data;
+        },
      },
-    getters: { 
+    getters: {
         Toast(state){
             return state.Toast;
         },
-        
+        ToastMessage(state){
+            return state.ToastMessage;
+        },
+        AuthUser(state){
+            return state.AuthUser;
+        },
+        Authenticated(state){
+            return state.Authenticated;
+        },
+
      }
 
 }

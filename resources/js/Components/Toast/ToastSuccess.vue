@@ -20,7 +20,7 @@
 export default {
     computed:{
         ToastMessage(){
-            return this.$store.getters.Toast;
+            return this.$store.getters.ToastMessage;
         },
         Toast(){
 		    return this.$store.getters.Toast;

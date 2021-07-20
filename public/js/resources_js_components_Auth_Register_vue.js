@@ -72,13 +72,32 @@ __webpack_require__.r(__webpack_exports__);
           setTimeout(function () {
             _this.$store.commit('SET_TOAST', false);
           }, 3000);
+          _this.form.name = '';
+          _this.form.email = '';
+          _this.form.password = '';
+          _this.form.password_confirmation = '';
         }
 
         if (res.data.errors) {
-          console.log('errors');
+          _this.form.password = '';
+          _this.form.password_confirmation = '';
+
+          _this.$store.commit('SET_TOAST', 'Errors');
+
+          _this.$store.commit('SET_ToastMessage', res.data.errors);
+
+          setTimeout(function () {
+            _this.$store.commit('SET_TOAST', false);
+          }, 3000);
         }
       })["catch"](function (e) {
-        console.log(e);
+        _this.$store.commit('SET_TOAST', 'Warning');
+
+        _this.$store.commit('SET_ToastMessage', 'Something Is Wrong !');
+
+        setTimeout(function () {
+          _this.$store.commit('SET_TOAST', false);
+        }, 3000);
       });
     }
   }

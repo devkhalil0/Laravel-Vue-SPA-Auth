@@ -44,6 +44,50 @@ export default {
                     remember: false
                     }
             }
+        },
+        methods:{
+            GetUser(){
+                axios.get('/api/user')
+                .then((res)=>{
+                this.$store.commit('SET_AUTHUSER', res.data);
+                this.$store.commit('SET_AUTHENTICATED', true);
+                localStorage.setItem("auth", true);
+                })
+            },
+            submit(){
+                axios.post('api/login', this.form)
+                .then((res) => {
+                    if(res.data.success)
+                    {
+                    this.$store.commit('SET_TOAST', 'Success');
+                    this.$store.commit('SET_ToastMessage', res.data.success);
+                    setTimeout(() => {
+                            this.$store.commit('SET_TOAST', false);
+                    }, 3000);
+                    this.form.email = '';
+                    this.form.password = '';
+                    this.GetUser();
+                    this.$router.push({name: 'Dashboard'});
+                    }
+                    if(res.data.errors)
+                    {
+                    this.form.password = '';
+                    this.$store.commit('SET_TOAST', 'Errors');
+                    this.$store.commit('SET_ToastMessage', res.data.errors);
+                    setTimeout(() => {
+                            this.$store.commit('SET_TOAST', false);
+                    }, 3000);   
+                    }
+
+                })
+                .catch((e) => {
+                    this.$store.commit('SET_TOAST', 'Warning');
+                    this.$store.commit('SET_ToastMessage', 'Something Is Wrong !');
+                    setTimeout(() => {
+                            this.$store.commit('SET_TOAST', false);
+                    }, 3000);
+                })
+            }
         }
 }
 </script>

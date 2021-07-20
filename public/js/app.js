@@ -1960,11 +1960,58 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       showingNavigationDropdown: false
     };
+  },
+  methods: {
+    Logout: function Logout() {
+      var _this = this;
+
+      axios.post('/api/logout').then(function (res) {
+        _this.$store.commit('SET_TOAST', 'Success');
+
+        _this.$store.commit('SET_ToastMessage', res.data.success);
+
+        setTimeout(function () {
+          _this.$store.commit('SET_TOAST', false);
+        }, 3000);
+
+        _this.$store.commit('SET_AUTHENTICATED', false);
+
+        if (_this.CurrentRoute != 'Home') {
+          _this.$router.push({
+            name: 'Home'
+          });
+        }
+
+        localStorage.removeItem("auth", false);
+      })["catch"](function (e) {
+        _this.$store.commit('SET_TOAST', 'Warning');
+
+        _this.$store.commit('SET_ToastMessage', 'Something Is Wrong !');
+
+        setTimeout(function () {
+          _this.$store.commit('SET_TOAST', false);
+        }, 3000);
+      });
+    },
+    chk: function chk() {
+      axios.get('/api/authenticated').then(function (res) {
+        console.log(res);
+      });
+    }
   }
 });
 
@@ -2096,22 +2143,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: {
-    error: {
-      "typeof": String
+  computed: {
+    ToastMessage: function ToastMessage() {
+      return this.$store.getters.ToastMessage;
+    },
+    Toast: function Toast() {
+      return this.$store.getters.Toast;
     }
-  },
-  data: function data() {
-    return {
-      Toast: false
-    };
   },
   methods: {
     ToastHide: function ToastHide() {
-      this.Toast = false;
-    },
-    ToastShow: function ToastShow() {
-      this.Toast = true;
+      this.$store.commit('SET_TOAST', false);
     }
   }
 });
@@ -2150,7 +2192,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   computed: {
     ToastMessage: function ToastMessage() {
-      return this.$store.getters.Toast;
+      return this.$store.getters.ToastMessage;
     },
     Toast: function Toast() {
       return this.$store.getters.Toast;
@@ -2195,22 +2237,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: {
-    Warning: {
-      "typeof": String
+  computed: {
+    ToastMessage: function ToastMessage() {
+      return this.$store.getters.ToastMessage;
+    },
+    Toast: function Toast() {
+      return this.$store.getters.Toast;
     }
-  },
-  data: function data() {
-    return {
-      Toast: false
-    };
   },
   methods: {
     ToastHide: function ToastHide() {
-      this.Toast = false;
-    },
-    ToastShow: function ToastShow() {
-      this.Toast = true;
+      this.$store.commit('SET_TOAST', false);
     }
   }
 });
@@ -2230,9 +2267,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var _Store_Index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Store/Index */ "./resources/js/Store/Index.js");
 
 
 vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_1__.default);
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vue_router__WEBPACK_IMPORTED_MODULE_1__.default({
   routes: [{
     path: "/",
@@ -2245,6 +2284,20 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
     name: "Login",
     component: function component() {
       return __webpack_require__.e(/*! import() */ "resources_js_Components_Auth_Login_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Components/Auth/Login.vue */ "./resources/js/Components/Auth/Login.vue"));
+    },
+    beforeEnter: function beforeEnter(to, from, next) {
+      if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Authenticated === true) {
+        _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
+        _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'You are Authenticated !';
+        setTimeout(function () {
+          _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
+        }, 3000);
+        return next({
+          name: 'Dashboard'
+        });
+      } else {
+        next();
+      }
     }
   }, {
     path: "/forget-password",
@@ -2263,6 +2316,26 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
     name: "Register",
     component: function component() {
       return __webpack_require__.e(/*! import() */ "resources_js_Components_Auth_Register_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Components/Auth/Register.vue */ "./resources/js/Components/Auth/Register.vue"));
+    },
+    beforeEnter: function beforeEnter(to, from, next) {
+      if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Authenticated === true) {
+        _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
+        _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'You are Authenticated !';
+        setTimeout(function () {
+          _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
+        }, 3000);
+        return next({
+          name: 'Dashboard'
+        });
+      } else {
+        next();
+      }
+    }
+  }, {
+    path: "/dashboard",
+    name: "Dashboard",
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_Components_User_Dashboard_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Components/User/Dashboard.vue */ "./resources/js/Components/User/Dashboard.vue"));
     }
   } // {
   //   path: "/:catchAll(.*)",
@@ -2293,28 +2366,47 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   state: {
-    // Toast Status 
+    // Toast Status
     Toast: false,
-    ToastMessage: null
+    ToastMessage: null,
+    // Auth User
+    AuthUser: [],
+    Authenticated: false,
+    // Admin Check 
+    IsAdmin: false
   },
-  actions: {// authUser ({ commit, dispatch }) {
-    //     return axios.get('/api/user').then((response) => {
-    //         commit('SET_AUTHENTICATED', true)
-    //         commit('SET_AUTHUSER', response.data)
-    //         localStorage.setItem("auth", true);
-    //         if(router.currentRoute.name !== null){
-    //             router.push({ name: 'Dashboard' })
-    //         };
-    //     }).catch(() => {
-    //         commit('SET_AUTHENTICATED', false)
-    //         commit('SET_AUTHUSER', null)
-    //         localStorage.removeItem("auth");
-    //         if(this.CurrentRoute != 'Login'){
-    //             router.push({ name: 'Login' })
-    //         };
-    //     })
-    // },
-    // checkAdmin({commit, dispatch}){
+  actions: {
+    authUser: function authUser(_ref) {
+      var _this = this;
+
+      var commit = _ref.commit,
+          dispatch = _ref.dispatch;
+      return axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/user').then(function (response) {
+        commit('SET_AUTHENTICATED', true);
+        commit('SET_AUTHUSER', response.data);
+        localStorage.setItem("auth", true);
+
+        if (_Router_Index__WEBPACK_IMPORTED_MODULE_1__.default.currentRoute.name !== null) {
+          _Router_Index__WEBPACK_IMPORTED_MODULE_1__.default.push({
+            name: 'Dashboard'
+          });
+        }
+
+        ;
+      })["catch"](function () {
+        commit('SET_AUTHENTICATED', false);
+        commit('SET_AUTHUSER', null);
+        localStorage.removeItem("auth");
+
+        if (_this.CurrentRoute != 'Login') {
+          _Router_Index__WEBPACK_IMPORTED_MODULE_1__.default.push({
+            name: 'Login'
+          });
+        }
+
+        ;
+      });
+    } // checkAdmin({commit, dispatch}){
     //     return axios.get('/api/authenticated/admin')
     //     .then((res) => {
     //         if(res.data == true)
@@ -2327,6 +2419,7 @@ __webpack_require__.r(__webpack_exports__);
     //         commit('SET_ADMIN', false)
     //     })
     // }
+
   },
   mutations: {
     SET_TOAST: function SET_TOAST(state, status) {
@@ -2334,11 +2427,26 @@ __webpack_require__.r(__webpack_exports__);
     },
     SET_ToastMessage: function SET_ToastMessage(state, message) {
       state.ToastMessage = message;
+    },
+    SET_AUTHUSER: function SET_AUTHUSER(state, user) {
+      state.AuthUser = user;
+    },
+    SET_AUTHENTICATED: function SET_AUTHENTICATED(state, data) {
+      state.Authenticated = data;
     }
   },
   getters: {
     Toast: function Toast(state) {
       return state.Toast;
+    },
+    ToastMessage: function ToastMessage(state) {
+      return state.ToastMessage;
+    },
+    AuthUser: function AuthUser(state) {
+      return state.AuthUser;
+    },
+    Authenticated: function Authenticated(state) {
+      return state.Authenticated;
     }
   }
 });
@@ -2373,12 +2481,39 @@ Vue.component('toast-warning', __webpack_require__(/*! ./Components/Toast/ToastW
 
 Vue.use(vuex__WEBPACK_IMPORTED_MODULE_1__.default);
 
-var store = new vuex__WEBPACK_IMPORTED_MODULE_1__.default.Store(_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default);
-var app = new Vue({
-  router: _Router_Index__WEBPACK_IMPORTED_MODULE_0__.default,
-  store: store,
-  el: '#app'
+var store = new vuex__WEBPACK_IMPORTED_MODULE_1__.default.Store(_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default); // mixin 
+
+Vue.mixin({
+  computed: {
+    Authenticated: function Authenticated() {
+      return this.$store.getters.Authenticated;
+    },
+    AuthUser: function AuthUser() {
+      return this.$store.getters.AuthUser;
+    },
+    CurrentRoute: function CurrentRoute() {
+      return this.$route.name;
+    }
+  }
 });
+var auth = localStorage.getItem("auth");
+
+if (auth) {
+  store.dispatch('authUser').then(function () {
+    // store.dispatch('checkAdmin');
+    var app = new Vue({
+      store: store,
+      router: _Router_Index__WEBPACK_IMPORTED_MODULE_0__.default,
+      el: '#app'
+    });
+  });
+} else {
+  var app = new Vue({
+    store: store,
+    router: _Router_Index__WEBPACK_IMPORTED_MODULE_0__.default,
+    el: '#app'
+  });
+}
 
 /***/ }),
 
@@ -20810,11 +20945,11 @@ var render = function() {
             _c("div", { staticClass: "flex" }, [
               _c(
                 "div",
-                { staticClass: "flex-shrink-0 flex items-center" },
+                { staticClass: "flex-shrink-0 flex items-center text-xl" },
                 [
                   _c("router-link", { attrs: { to: { name: "Home" } } }, [
                     _vm._v(
-                      "\n                            Website Name\n                        "
+                      "\n                            Khalilvaai\n                        "
                     )
                   ])
                 ],
@@ -20826,142 +20961,174 @@ var render = function() {
               "div",
               { staticClass: "hidden sm:flex sm:items-center sm:ml-6" },
               [
-                _c(
-                  "router-link",
-                  {
-                    staticClass:
-                      "text-lg ml-1 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150",
-                    attrs: { to: { name: "Login" }, type: "button" }
-                  },
-                  [
-                    _vm._v(
-                      "\n                        Login\n                    "
-                    )
-                  ]
-                ),
+                _c("div", { on: { click: _vm.chk } }, [
+                  _vm._v(
+                    "\n                        cjeck\n                    "
+                  )
+                ]),
                 _vm._v(" "),
-                _c(
-                  "router-link",
-                  {
-                    staticClass:
-                      "text-lg ml-1 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150",
-                    attrs: { to: { name: "Register" }, type: "button" }
-                  },
-                  [
-                    _vm._v(
-                      "\n                        Register\n                    "
+                _vm.Authenticated
+                  ? _c(
+                      "div",
+                      { staticClass: "ml-3 relative" },
+                      [
+                        _c("dropdown", {
+                          attrs: { align: "right", width: "48" },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "trigger",
+                                fn: function() {
+                                  return [
+                                    _c(
+                                      "span",
+                                      { staticClass: "inline-flex rounded-md" },
+                                      [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "text-lg inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150",
+                                            attrs: { type: "button" }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                        " +
+                                                _vm._s(_vm.AuthUser.name) +
+                                                "\n                                        "
+                                            ),
+                                            _c(
+                                              "svg",
+                                              {
+                                                staticClass:
+                                                  "ml-2 -mr-0.5 h-4 w-4",
+                                                attrs: {
+                                                  xmlns:
+                                                    "http://www.w3.org/2000/svg",
+                                                  viewBox: "0 0 20 20",
+                                                  fill: "currentColor"
+                                                }
+                                              },
+                                              [
+                                                _c("path", {
+                                                  attrs: {
+                                                    "fill-rule": "evenodd",
+                                                    d:
+                                                      "M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z",
+                                                    "clip-rule": "evenodd"
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                },
+                                proxy: true
+                              },
+                              {
+                                key: "content",
+                                fn: function() {
+                                  return [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "block px-4 py-2 text-xs text-gray-400 w-full text-left"
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                    Manage Account\n                                "
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "router-link",
+                                      {
+                                        staticClass:
+                                          "text-left w-full text-lg block border-t px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out",
+                                        class:
+                                          _vm.CurrentRoute === "Dashboard"
+                                            ? "bg-gray-50"
+                                            : "",
+                                        attrs: { to: { name: "Dashboard" } }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                    Dashboard\n                                "
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "text-left w-full focus:outline-none text-lg block border-t px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out",
+                                        on: { click: _vm.Logout }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                    Logout\n                                "
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ],
+                            null,
+                            false,
+                            3904356752
+                          )
+                        })
+                      ],
+                      1
                     )
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "ml-3 relative" },
-                  [
-                    _c("dropdown", {
-                      attrs: { align: "right", width: "48" },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "trigger",
-                          fn: function() {
-                            return [
-                              _c(
-                                "span",
-                                { staticClass: "inline-flex rounded-md" },
-                                [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass:
-                                        "text-lg inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150",
-                                      attrs: { type: "button" }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                        UserName\n                                        "
-                                      ),
-                                      _c(
-                                        "svg",
-                                        {
-                                          staticClass: "ml-2 -mr-0.5 h-4 w-4",
-                                          attrs: {
-                                            xmlns: "http://www.w3.org/2000/svg",
-                                            viewBox: "0 0 20 20",
-                                            fill: "currentColor"
-                                          }
-                                        },
-                                        [
-                                          _c("path", {
-                                            attrs: {
-                                              "fill-rule": "evenodd",
-                                              d:
-                                                "M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z",
-                                              "clip-rule": "evenodd"
-                                            }
-                                          })
-                                        ]
-                                      )
-                                    ]
-                                  )
-                                ]
-                              )
-                            ]
+                  : _c(
+                      "div",
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            staticClass:
+                              "text-lg ml-1 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150",
+                            class:
+                              _vm.CurrentRoute === "Login" ? "bg-gray-50" : "",
+                            attrs: { to: { name: "Login" }, type: "button" }
                           },
-                          proxy: true
-                        },
-                        {
-                          key: "content",
-                          fn: function() {
-                            return [
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "block px-4 py-2 text-xs text-gray-400 w-full text-left"
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                    Manage Account\n                                "
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "text-left w-full text-lg block border-t px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                    Dashboard\n                                "
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "text-left w-full focus:outline-none text-lg block border-t px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                    Logout\n                                "
-                                  )
-                                ]
-                              )
-                            ]
+                          [
+                            _vm._v(
+                              "\n                            Login\n                        "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "router-link",
+                          {
+                            staticClass:
+                              "text-lg ml-1 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150",
+                            class:
+                              _vm.CurrentRoute === "Register"
+                                ? "bg-gray-50"
+                                : "",
+                            attrs: { to: { name: "Register" }, type: "button" }
                           },
-                          proxy: true
-                        }
-                      ])
-                    })
-                  ],
-                  1
-                )
-              ],
-              1
+                          [
+                            _vm._v(
+                              "\n                            Register\n                        "
+                            )
+                          ]
+                        )
+                      ],
+                      1
+                    )
+              ]
             ),
             _vm._v(" "),
             _c("div", { staticClass: "-mr-2 flex items-center sm:hidden" }, [
@@ -21032,125 +21199,156 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "border-t-2 border-gray-200" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "text-lg w-full border-b p-2 inline-flex items-center px-3 py-2  text-sm leading-4 font-medium text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150",
-                  attrs: { type: "button" }
-                },
-                [_vm._v("\n                    Projects\n                ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "text-lg w-full border-b p-2 inline-flex items-center px-3 py-2  text-sm leading-4 font-medium text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150",
-                  attrs: { type: "button" }
-                },
-                [_vm._v("\n                    Login\n                ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "relative" },
-                [
-                  _c("dropdown", {
-                    attrs: { align: "left", width: "48" },
-                    scopedSlots: _vm._u([
-                      {
-                        key: "trigger",
-                        fn: function() {
-                          return [
-                            _c(
-                              "div",
-                              {
-                                staticClass:
-                                  "text-lg w-full border-b inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150"
+              _vm.Authenticated
+                ? _c(
+                    "div",
+                    { staticClass: "relative" },
+                    [
+                      _c("dropdown", {
+                        attrs: { align: "left", width: "48" },
+                        scopedSlots: _vm._u(
+                          [
+                            {
+                              key: "trigger",
+                              fn: function() {
+                                return [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "text-lg w-full border-b inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                " +
+                                          _vm._s(_vm.AuthUser.name) +
+                                          "\n                                "
+                                      ),
+                                      _c(
+                                        "svg",
+                                        {
+                                          staticClass: "ml-2 -mr-0.5 h-4 w-4",
+                                          attrs: {
+                                            xmlns: "http://www.w3.org/2000/svg",
+                                            viewBox: "0 0 20 20",
+                                            fill: "currentColor"
+                                          }
+                                        },
+                                        [
+                                          _c("path", {
+                                            attrs: {
+                                              "fill-rule": "evenodd",
+                                              d:
+                                                "M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z",
+                                              "clip-rule": "evenodd"
+                                            }
+                                          })
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ]
                               },
-                              [
-                                _vm._v(
-                                  "\n                                Username\n                                "
-                                ),
-                                _c(
-                                  "svg",
-                                  {
-                                    staticClass: "ml-2 -mr-0.5 h-4 w-4",
-                                    attrs: {
-                                      xmlns: "http://www.w3.org/2000/svg",
-                                      viewBox: "0 0 20 20",
-                                      fill: "currentColor"
-                                    }
-                                  },
-                                  [
-                                    _c("path", {
-                                      attrs: {
-                                        "fill-rule": "evenodd",
-                                        d:
-                                          "M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z",
-                                        "clip-rule": "evenodd"
-                                      }
-                                    })
-                                  ]
-                                )
-                              ]
-                            )
-                          ]
+                              proxy: true
+                            },
+                            {
+                              key: "content",
+                              fn: function() {
+                                return [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "block px-4 py-2 text-xs text-gray-400 w-full text-left"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                Manage Account\n                            "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "router-link",
+                                    {
+                                      staticClass:
+                                        "w-full focus:outline-none text-left text-lg block border-t px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out",
+                                      class:
+                                        _vm.CurrentRoute === "Dashboard"
+                                          ? "bg-gray-50"
+                                          : "",
+                                      attrs: { to: { name: "Dashboard" } }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                Dashboard\n                            "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "w-full text-left focus:outline-none text-lg block border-t px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out",
+                                      on: { click: _vm.Logout }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                Logout\n                            "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              },
+                              proxy: true
+                            }
+                          ],
+                          null,
+                          false,
+                          1640560107
+                        )
+                      })
+                    ],
+                    1
+                  )
+                : _c(
+                    "div",
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          staticClass:
+                            "text-lg w-full border-b p-2 inline-flex items-center px-3 py-2  text-sm leading-4 font-medium text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150",
+                          class:
+                            _vm.CurrentRoute === "Login" ? "bg-gray-50" : "",
+                          attrs: { to: { name: "Login" }, type: "button" }
                         },
-                        proxy: true
-                      },
-                      {
-                        key: "content",
-                        fn: function() {
-                          return [
-                            _c(
-                              "div",
-                              {
-                                staticClass:
-                                  "block px-4 py-2 text-xs text-gray-400 w-full text-left"
-                              },
-                              [
-                                _vm._v(
-                                  "\n                                Manage Account\n                            "
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              {
-                                staticClass:
-                                  "w-full focus:outline-none text-left text-lg block border-t px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
-                              },
-                              [
-                                _vm._v(
-                                  "\n                                Dashboard\n                            "
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              {
-                                staticClass:
-                                  "w-full text-left focus:outline-none text-lg block border-t px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
-                              },
-                              [
-                                _vm._v(
-                                  "\n                                Logout\n                            "
-                                )
-                              ]
-                            )
-                          ]
+                        [
+                          _vm._v(
+                            "\n                        Login\n                    "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "router-link",
+                        {
+                          staticClass:
+                            "text-lg w-full border-b p-2 inline-flex items-center px-3 py-2  text-sm leading-4 font-medium text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150",
+                          class:
+                            _vm.CurrentRoute === "Register" ? "bg-gray-50" : "",
+                          attrs: { to: { name: "Register" }, type: "button" }
                         },
-                        proxy: true
-                      }
-                    ])
-                  })
-                ],
-                1
-              )
+                        [
+                          _vm._v(
+                            "\n                        Register\n                    "
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  )
             ])
           ]
         )
@@ -21295,17 +21493,20 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("transition", { attrs: { name: "slide-fade" } }, [
-    _vm.Toast
+    _vm.Toast === "Errors"
       ? _c(
           "div",
           {
             staticClass:
               "absolute z-40 sticky top-0 right-0 max-w-xs w-full mt-4 mr-4"
           },
-          [
-            _c(
+          _vm._l(_vm.ToastMessage, function(error, key) {
+            return _c(
               "div",
-              { staticClass: "flex bg-red-100 rounded shadow p-4 mt-4" },
+              {
+                key: key,
+                staticClass: "flex bg-red-100 rounded shadow p-4 mt-4"
+              },
               [
                 _c("div", { staticClass: "mr-2" }, [
                   _c(
@@ -21334,7 +21535,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "flex-1 text-black" }, [
                   _vm._v(
-                    "\n                " + _vm._s(_vm.error) + "\n            "
+                    "\n                " + _vm._s(error[0]) + "\n            "
                   )
                 ]),
                 _vm._v(" "),
@@ -21345,7 +21546,11 @@ var render = function() {
                       staticClass:
                         "align-top text-gray-500 hover:text-gray-700 focus:outline-none fucus:text-indigo-600",
                       attrs: { type: "button" },
-                      on: { click: _vm.ToastHide }
+                      on: {
+                        click: function($event) {
+                          return _vm.ToastHide()
+                        }
+                      }
                     },
                     [
                       _c(
@@ -21375,7 +21580,8 @@ var render = function() {
                 ])
               ]
             )
-          ]
+          }),
+          0
         )
       : _vm._e()
   ])
@@ -21500,7 +21706,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("transition", { attrs: { name: "slide-fade" } }, [
-    _vm.Toast
+    _vm.Toast === "Warning"
       ? _c(
           "div",
           {
@@ -21535,7 +21741,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "flex-1 text-gray-800" }, [
-              _vm._v("\n           " + _vm._s(_vm.Warning) + "\n        ")
+              _vm._v("\n           " + _vm._s(_vm.ToastMessage) + "\n        ")
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "ml-2" }, [
@@ -38274,7 +38480,7 @@ var index = {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_Components_Home_vue":1,"resources_js_Components_Auth_Login_vue":1,"resources_js_Components_Auth_Password_ForgetPassword_vue":1,"resources_js_Components_Auth_Password_ConfirmPassword_vue":1,"resources_js_Components_Auth_Register_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_Components_Home_vue":1,"resources_js_Components_Auth_Login_vue":1,"resources_js_Components_Auth_Password_ForgetPassword_vue":1,"resources_js_Components_Auth_Password_ConfirmPassword_vue":1,"resources_js_Components_Auth_Register_vue":1,"resources_js_Components_User_Dashboard_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};
