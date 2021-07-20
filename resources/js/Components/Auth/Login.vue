@@ -87,6 +87,7 @@ export default {
                     this.form.password = '';
                     this.GetUser();
                     this.$router.push({name: 'Dashboard'});
+                    this.$store.dispatch('checkAdmin');
                     }
                     if(res.data.errors)
                     {

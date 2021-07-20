@@ -33,3 +33,21 @@ Route::middleware('auth:sanctum')->get('/authenticated', function () {
 Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LogoutController::class, 'logout']);
+
+Route::middleware('auth:sanctum')->get('/authenticated/admin', function () {
+
+    if (Auth::check() && Auth::user()->role == 'admin') {
+        return true;
+    } else{
+        return false;
+    }
+});
+
+// For User 
+Route::group(['middleware' => ['auth:sanctum']], function (){ 
+
+});
+// For Admin
+Route::group(['middleware' => ['auth:sanctum', 'admin']], function (){ 
+
+});

@@ -127,6 +127,9 @@ export default {
                 showingNavigationDropdown: false,
             }
         },
+        computed:{
+           
+        },
         methods:{
             Logout(){
                 axios.post('/api/logout')
@@ -143,6 +146,7 @@ export default {
                         this.$router.push({name: 'Home'});
                     }
                     localStorage.removeItem("auth", false);
+                    this.$store.commit('SET_ADMIN', false);
                 })
                 .catch((e) => {
                     this.$store.commit('SET_TOAST', 'Warning');

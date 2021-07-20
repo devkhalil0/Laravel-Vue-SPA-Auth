@@ -13,6 +13,7 @@ export default {
         IsAdmin: false,
         // Email Verification 
         EmailVerifyMessage: false,
+        EmailVerifyStatus: false,
     },
     actions: {
         authUser ({ commit, dispatch }) {
@@ -35,21 +36,21 @@ export default {
                 };
             })
         },
-        // checkAdmin({commit, dispatch}){
-        //     return axios.get('/api/authenticated/admin')
-        //     .then((res) => {
-        //         if(res.data == true)
-        //         {
-        //             commit('SET_ADMIN', true)
-        //         }else{
-        //             commit('SET_ADMIN', false)
-        //         }
+        checkAdmin({commit, dispatch}){
+            return axios.get('/api/authenticated/admin')
+            .then((res) => {
+                if(res.data == true)
+                {
+                    commit('SET_ADMIN', true)
+                }else{
+                    commit('SET_ADMIN', false)
+                }
 
-        //     }).catch(() => {
-        //         commit('SET_ADMIN', false)
+            }).catch(() => {
+                commit('SET_ADMIN', false)
 
-        //     })
-        // }
+            })
+        }
     },
     mutations: {
         SET_TOAST (state, status) {
@@ -63,6 +64,9 @@ export default {
         },
         SET_AUTHENTICATED (state, data) {
             state.Authenticated = data;
+        },
+        SET_ADMIN (state, data) {
+            state.IsAdmin = data;
         },
      },
     getters: {
@@ -80,6 +84,9 @@ export default {
         },
         EmailVerifyMessage(state){
             return state.EmailVerifyMessage;
+        },
+        IsAdmin(state){
+            return state.IsAdmin;
         },
 
      }

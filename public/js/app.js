@@ -1973,6 +1973,7 @@ __webpack_require__.r(__webpack_exports__);
       showingNavigationDropdown: false
     };
   },
+  computed: {},
   methods: {
     Logout: function Logout() {
       var _this = this;
@@ -1995,6 +1996,8 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         localStorage.removeItem("auth", false);
+
+        _this.$store.commit('SET_ADMIN', false);
       })["catch"](function (e) {
         _this.$store.commit('SET_TOAST', 'Warning');
 
@@ -2338,15 +2341,19 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
     },
     beforeEnter: function beforeEnter(to, from, next) {
       axios.get('/api/authenticated').then(function () {
-        if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.AuthUser.email_verified_at === null) {
-          _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'Please Verify Your Email !';
-          _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
-          setTimeout(function () {
-            _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
-          }, 2000);
-          return next({
-            name: 'Verify-Email'
-          });
+        if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.EmailVerifyStatus === true) {
+          if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.AuthUser.email_verified_at === null) {
+            _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'Please Verify Your Email !';
+            _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
+            setTimeout(function () {
+              _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
+            }, 2000);
+            return next({
+              name: 'Verify-Email'
+            });
+          } else {
+            next();
+          }
         } else {
           next();
         }
@@ -2360,6 +2367,29 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
           name: 'Login'
         });
       });
+    }
+  }, //   For Admin 
+  {
+    path: "/admin/dashboard",
+    name: "Admin-Dashboard",
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_Components_Admin_Dashboard_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Components/Admin/Dashboard.vue */ "./resources/js/Components/Admin/Dashboard.vue"));
+    },
+    beforeEnter: function beforeEnter(to, from, next) {
+      setTimeout(function () {
+        if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.IsAdmin) {
+          next();
+        } else {
+          _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'No Permission !';
+          _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
+          setTimeout(function () {
+            _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
+          }, 2000);
+          return next({
+            name: 'Dashboard'
+          });
+        }
+      }, 1000);
     }
   } // {
   //   path: "/:catchAll(.*)",
@@ -2399,7 +2429,8 @@ __webpack_require__.r(__webpack_exports__);
     // Admin Check 
     IsAdmin: false,
     // Email Verification 
-    EmailVerifyMessage: false
+    EmailVerifyMessage: false,
+    EmailVerifyStatus: false
   },
   actions: {
     authUser: function authUser(_ref) {
@@ -2432,20 +2463,20 @@ __webpack_require__.r(__webpack_exports__);
 
         ;
       });
-    } // checkAdmin({commit, dispatch}){
-    //     return axios.get('/api/authenticated/admin')
-    //     .then((res) => {
-    //         if(res.data == true)
-    //         {
-    //             commit('SET_ADMIN', true)
-    //         }else{
-    //             commit('SET_ADMIN', false)
-    //         }
-    //     }).catch(() => {
-    //         commit('SET_ADMIN', false)
-    //     })
-    // }
-
+    },
+    checkAdmin: function checkAdmin(_ref2) {
+      var commit = _ref2.commit,
+          dispatch = _ref2.dispatch;
+      return axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated/admin').then(function (res) {
+        if (res.data == true) {
+          commit('SET_ADMIN', true);
+        } else {
+          commit('SET_ADMIN', false);
+        }
+      })["catch"](function () {
+        commit('SET_ADMIN', false);
+      });
+    }
   },
   mutations: {
     SET_TOAST: function SET_TOAST(state, status) {
@@ -2459,6 +2490,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     SET_AUTHENTICATED: function SET_AUTHENTICATED(state, data) {
       state.Authenticated = data;
+    },
+    SET_ADMIN: function SET_ADMIN(state, data) {
+      state.IsAdmin = data;
     }
   },
   getters: {
@@ -2476,6 +2510,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     EmailVerifyMessage: function EmailVerifyMessage(state) {
       return state.EmailVerifyMessage;
+    },
+    IsAdmin: function IsAdmin(state) {
+      return state.IsAdmin;
     }
   }
 });
@@ -2529,7 +2566,7 @@ var auth = localStorage.getItem("auth");
 
 if (auth) {
   store.dispatch('authUser').then(function () {
-    // store.dispatch('checkAdmin');
+    store.dispatch('checkAdmin');
     var app = new Vue({
       store: store,
       router: _Router_Index__WEBPACK_IMPORTED_MODULE_0__.default,
@@ -38503,7 +38540,7 @@ var index = {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_Components_Home_vue":1,"resources_js_Components_Auth_Login_vue":1,"resources_js_Components_Auth_Password_ForgetPassword_vue":1,"resources_js_Components_Auth_Password_ConfirmPassword_vue":1,"resources_js_Components_Auth_VerifyEmail_vue":1,"resources_js_Components_Auth_Register_vue":1,"resources_js_Components_User_Dashboard_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_Components_Home_vue":1,"resources_js_Components_Auth_Login_vue":1,"resources_js_Components_Auth_Password_ForgetPassword_vue":1,"resources_js_Components_Auth_Password_ConfirmPassword_vue":1,"resources_js_Components_Auth_VerifyEmail_vue":1,"resources_js_Components_Auth_Register_vue":1,"resources_js_Components_User_Dashboard_vue":1,"resources_js_Components_Admin_Dashboard_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

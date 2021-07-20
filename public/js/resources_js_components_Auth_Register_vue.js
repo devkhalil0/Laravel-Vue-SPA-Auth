@@ -81,7 +81,9 @@ __webpack_require__.r(__webpack_exports__);
             name: 'Login'
           });
 
-          _this.$store.state.EmailVerifyMessage = true;
+          if (_this.$store.state.EmailVerifyStatus === true) {
+            _this.$store.state.EmailVerifyMessage = true;
+          }
         }
 
         if (res.data.errors) {

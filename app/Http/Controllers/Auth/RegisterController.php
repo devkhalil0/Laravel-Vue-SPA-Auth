@@ -83,6 +83,7 @@ class RegisterController extends Controller
             return response()->json(['errors' => $validator->errors()]);
         }
         $user = new User();
+        $user->role = 'user';
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);

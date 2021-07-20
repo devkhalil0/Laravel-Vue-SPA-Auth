@@ -40,7 +40,7 @@ let auth = localStorage.getItem("auth");
 
 if(auth){
     store.dispatch('authUser').then(() => {
-    // store.dispatch('checkAdmin');
+    store.dispatch('checkAdmin');
     
         const app = new Vue({
             store,

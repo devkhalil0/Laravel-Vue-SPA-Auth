@@ -64,7 +64,9 @@
                         this.form.password = '';
                         this.form.password_confirmation = '';
                         this.$router.push({name: 'Login'});
-                        this.$store.state.EmailVerifyMessage = true;
+                        if(this.$store.state.EmailVerifyStatus === true){
+                            this.$store.state.EmailVerifyMessage = true;
+                        }
                     }
                     if(res.data.errors){
                         this.form.password = '';

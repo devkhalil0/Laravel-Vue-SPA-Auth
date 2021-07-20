@@ -71,14 +71,18 @@ export default new Router({
     beforeEnter: (to, from, next) => {
         axios.get('/api/authenticated')
             .then(()=>{
-                if(store.state.AuthUser.email_verified_at === null){
+                if(store.state.EmailVerifyStatus === true){
+                    if(store.state.AuthUser.email_verified_at === null){
 
-                    store.state.ToastMessage = 'Please Verify Your Email !';
-                    store.state.Toast = 'Warning';
-                    setTimeout(() => {
-                        store.state.Toast = false;
-                    }, 2000);
-                    return next({ name: 'Verify-Email'});
+                        store.state.ToastMessage = 'Please Verify Your Email !';
+                        store.state.Toast = 'Warning';
+                        setTimeout(() => {
+                            store.state.Toast = false;
+                        }, 2000);
+                        return next({ name: 'Verify-Email'});
+                    }else{
+                        next();
+                    }
                 }else{
                     next();
                 }
@@ -94,6 +98,26 @@ export default new Router({
 
             })
         },
+      },
+    //   For Admin 
+    {
+    path: "/admin/dashboard",
+    name: "Admin-Dashboard",
+    component: () => import("../Components/Admin/Dashboard.vue"),
+    beforeEnter: (to, from, next) => {
+        setTimeout(() => {
+            if(store.state.IsAdmin){
+                next();
+            }else{
+                store.state.ToastMessage = 'No Permission !';
+                store.state.Toast = 'Warning';
+                setTimeout(() => {
+                    store.state.Toast = false;
+                }, 2000);
+                return next({ name: 'Dashboard'});
+            }
+        }, 1000);
+    }
       },
     // {
     //   path: "/:catchAll(.*)",

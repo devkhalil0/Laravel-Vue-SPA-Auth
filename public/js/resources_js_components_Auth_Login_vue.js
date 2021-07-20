@@ -108,6 +108,8 @@ __webpack_require__.r(__webpack_exports__);
           _this2.$router.push({
             name: 'Dashboard'
           });
+
+          _this2.$store.dispatch('checkAdmin');
         }
 
         if (res.data.errors) {
