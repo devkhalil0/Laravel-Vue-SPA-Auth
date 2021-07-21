@@ -64,13 +64,110 @@ export default new Router({
         }
     }
     },
+    // {
+    // path: "/dashboard",
+    // name: "Dashboard",
+    // component: () => import("../Components/User/Dashboard.vue"),
+    // beforeEnter: (to, from, next) => {
+    //     axios.get('/api/authenticated')
+    //         .then(()=>{
+    //             console.log(store.state.Authenticated);
+    //             if(store.state.EmailVerifyStatus === true){
+    //                 if(store.state.AuthUser.email_verified_at === null){
+
+    //                     store.state.ToastMessage = 'Please Verify Your Email !';
+    //                     store.state.Toast = 'Warning';
+    //                     setTimeout(() => {
+    //                         store.state.Toast = false;
+    //                     }, 2000);
+    //                     return next({ name: 'Verify-Email'});
+    //                 }else{
+    //                     next();
+    //                 }
+    //             }else{
+    //                 next();
+    //             }
+
+    //         })
+    //         .catch(()=>{
+    //         store.state.ToastMessage = 'You are not authenticated !';
+    //         store.state.Toast = 'Warning';
+    //         setTimeout(() => {
+    //             store.state.Toast = false;
+    //         }, 2000);
+    //         return next({ name: 'Login'});
+
+    //         })
+    //     },
+    //   },
     {
     path: "/dashboard",
     name: "Dashboard",
     component: () => import("../Components/User/Dashboard.vue"),
     beforeEnter: (to, from, next) => {
-        axios.get('/api/authenticated')
-            .then(()=>{
+        setTimeout(() => {
+            if(store.state.AdminStatus){
+                if(store.state.Authenticated && store.state.AuthUser.role === 'user'){
+                    if(store.state.EmailVerifyStatus === true){
+                        if(store.state.AuthUser.email_verified_at === null){
+
+                            store.state.ToastMessage = 'Please Verify Your Email !';
+                            store.state.Toast = 'Warning';
+                            setTimeout(() => {
+                                store.state.Toast = false;
+                            }, 2000);
+                            return next({ name: 'Verify-Email'});
+                        }else{
+                            next();
+                        }
+                    }else{
+                        next();
+                    }
+                }else{
+                    store.state.ToastMessage = 'No Permission !';
+                    store.state.Toast = 'Warning';
+                    setTimeout(() => {
+                        store.state.Toast = false;
+                    }, 2000);
+                    return next({ name: 'Admin-Dashboard'});
+                }
+            }else{
+                if(store.state.Authenticated){
+                    if(store.state.EmailVerifyStatus === true){
+                        if(store.state.AuthUser.email_verified_at === null){
+
+                            store.state.ToastMessage = 'Please Verify Your Email !';
+                            store.state.Toast = 'Warning';
+                            setTimeout(() => {
+                                store.state.Toast = false;
+                            }, 2000);
+                            return next({ name: 'Verify-Email'});
+                        }else{
+                            next();
+                        }
+                    }else{
+                        next();
+                    }
+                }else{
+                    store.state.ToastMessage = 'No Permission !';
+                    store.state.Toast = 'Warning';
+                    setTimeout(() => {
+                        store.state.Toast = false;
+                    }, 2000);
+                    return next({ name: 'Admin-Dashboard'});
+                }
+            }
+        }, 1000);
+    }
+    },
+    //   For Admin
+    {
+    path: "/admin/dashboard",
+    name: "Admin-Dashboard",
+    component: () => import("../Components/Admin/Dashboard.vue"),
+    beforeEnter: (to, from, next) => {
+        setTimeout(() => {
+            if(store.state.Authenticated && store.state.IsAdmin){
                 if(store.state.EmailVerifyStatus === true){
                     if(store.state.AuthUser.email_verified_at === null){
 
@@ -86,28 +183,6 @@ export default new Router({
                 }else{
                     next();
                 }
-                
-            })
-            .catch(()=>{
-            store.state.ToastMessage = 'You are not authenticated !';
-            store.state.Toast = 'Warning';
-            setTimeout(() => {
-                store.state.Toast = false;
-            }, 2000);
-            return next({ name: 'Login'});
-
-            })
-        },
-      },
-    //   For Admin 
-    {
-    path: "/admin/dashboard",
-    name: "Admin-Dashboard",
-    component: () => import("../Components/Admin/Dashboard.vue"),
-    beforeEnter: (to, from, next) => {
-        setTimeout(() => {
-            if(store.state.IsAdmin){
-                next();
             }else{
                 store.state.ToastMessage = 'No Permission !';
                 store.state.Toast = 'Warning';

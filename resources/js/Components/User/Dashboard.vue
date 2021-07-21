@@ -3,7 +3,7 @@
         <div class="w-full sm:max-w-lg mt-2 bg-white shadow overflow-hidden">
             <div class="w-full">
                 <div class="w-full bg-gray-100 p-4 text-lg">
-                    Welcome To Dashboard
+                    Welcome To User Dashboard
                 </div>
                 <div class="bg-white p-4">
                     <div class="flex text-md font-semibold">
@@ -22,7 +22,7 @@
 
 <script>
 export default {
-        
+
 }
 </script>
 

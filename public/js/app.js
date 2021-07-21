@@ -1997,7 +1997,8 @@ __webpack_require__.r(__webpack_exports__);
 
         localStorage.removeItem("auth", false);
 
-        _this.$store.commit('SET_ADMIN', false);
+        _this.$store.commit('SET_ADMIN', false); // this.$store.commit('SET_AUTHUSER', null);
+
       })["catch"](function (e) {
         _this.$store.commit('SET_TOAST', 'Warning');
 
@@ -2333,42 +2334,107 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
         next();
       }
     }
-  }, {
+  }, // {
+  // path: "/dashboard",
+  // name: "Dashboard",
+  // component: () => import("../Components/User/Dashboard.vue"),
+  // beforeEnter: (to, from, next) => {
+  //     axios.get('/api/authenticated')
+  //         .then(()=>{
+  //             console.log(store.state.Authenticated);
+  //             if(store.state.EmailVerifyStatus === true){
+  //                 if(store.state.AuthUser.email_verified_at === null){
+  //                     store.state.ToastMessage = 'Please Verify Your Email !';
+  //                     store.state.Toast = 'Warning';
+  //                     setTimeout(() => {
+  //                         store.state.Toast = false;
+  //                     }, 2000);
+  //                     return next({ name: 'Verify-Email'});
+  //                 }else{
+  //                     next();
+  //                 }
+  //             }else{
+  //                 next();
+  //             }
+  //         })
+  //         .catch(()=>{
+  //         store.state.ToastMessage = 'You are not authenticated !';
+  //         store.state.Toast = 'Warning';
+  //         setTimeout(() => {
+  //             store.state.Toast = false;
+  //         }, 2000);
+  //         return next({ name: 'Login'});
+  //         })
+  //     },
+  //   },
+  {
     path: "/dashboard",
     name: "Dashboard",
     component: function component() {
       return __webpack_require__.e(/*! import() */ "resources_js_Components_User_Dashboard_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Components/User/Dashboard.vue */ "./resources/js/Components/User/Dashboard.vue"));
     },
     beforeEnter: function beforeEnter(to, from, next) {
-      axios.get('/api/authenticated').then(function () {
-        if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.EmailVerifyStatus === true) {
-          if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.AuthUser.email_verified_at === null) {
-            _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'Please Verify Your Email !';
+      setTimeout(function () {
+        if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.AdminStatus) {
+          if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Authenticated && _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.AuthUser.role === 'user') {
+            if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.EmailVerifyStatus === true) {
+              if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.AuthUser.email_verified_at === null) {
+                _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'Please Verify Your Email !';
+                _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
+                setTimeout(function () {
+                  _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
+                }, 2000);
+                return next({
+                  name: 'Verify-Email'
+                });
+              } else {
+                next();
+              }
+            } else {
+              next();
+            }
+          } else {
+            _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'No Permission !';
             _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
             setTimeout(function () {
               _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
             }, 2000);
             return next({
-              name: 'Verify-Email'
+              name: 'Admin-Dashboard'
             });
-          } else {
-            next();
           }
         } else {
-          next();
+          if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Authenticated) {
+            if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.EmailVerifyStatus === true) {
+              if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.AuthUser.email_verified_at === null) {
+                _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'Please Verify Your Email !';
+                _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
+                setTimeout(function () {
+                  _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
+                }, 2000);
+                return next({
+                  name: 'Verify-Email'
+                });
+              } else {
+                next();
+              }
+            } else {
+              next();
+            }
+          } else {
+            _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'No Permission !';
+            _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
+            setTimeout(function () {
+              _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
+            }, 2000);
+            return next({
+              name: 'Admin-Dashboard'
+            });
+          }
         }
-      })["catch"](function () {
-        _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'You are not authenticated !';
-        _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
-        setTimeout(function () {
-          _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
-        }, 2000);
-        return next({
-          name: 'Login'
-        });
-      });
+      }, 1000);
     }
-  }, //   For Admin 
+  }, //   For Admin
   {
     path: "/admin/dashboard",
     name: "Admin-Dashboard",
@@ -2377,8 +2443,23 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
     },
     beforeEnter: function beforeEnter(to, from, next) {
       setTimeout(function () {
-        if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.IsAdmin) {
-          next();
+        if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Authenticated && _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.IsAdmin) {
+          if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.EmailVerifyStatus === true) {
+            if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.AuthUser.email_verified_at === null) {
+              _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'Please Verify Your Email !';
+              _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
+              setTimeout(function () {
+                _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
+              }, 2000);
+              return next({
+                name: 'Verify-Email'
+              });
+            } else {
+              next();
+            }
+          } else {
+            next();
+          }
         } else {
           _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'No Permission !';
           _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
@@ -2426,9 +2507,10 @@ __webpack_require__.r(__webpack_exports__);
     // Auth User
     AuthUser: [],
     Authenticated: false,
-    // Admin Check 
+    // Admin Check
     IsAdmin: false,
-    // Email Verification 
+    AdminStatus: true,
+    // Email Verification
     EmailVerifyMessage: false,
     EmailVerifyStatus: false
   },
@@ -2513,6 +2595,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     IsAdmin: function IsAdmin(state) {
       return state.IsAdmin;
+    },
+    AdminStatus: function AdminStatus(state) {
+      return state.AdminStatus;
     }
   }
 });

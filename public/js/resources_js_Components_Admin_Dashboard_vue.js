@@ -17,6 +17,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
 
 /***/ }),
@@ -109,7 +125,45 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("\n    Admin Dashboard !\n")])
+  return _c(
+    "div",
+    { staticClass: "flex flex-col sm:justify-center items-center ml-2 mr-2" },
+    [
+      _c(
+        "div",
+        {
+          staticClass: "w-full sm:max-w-lg mt-2 bg-white shadow overflow-hidden"
+        },
+        [
+          _c("div", { staticClass: "w-full" }, [
+            _c("div", { staticClass: "w-full bg-gray-100 p-4 text-lg" }, [
+              _vm._v(
+                "\n                Welcome To Admin Dashboard\n            "
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "bg-white p-4" }, [
+              _c("div", { staticClass: "flex text-md font-semibold" }, [
+                _c("div", [_vm._v("Name:")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "ml-2" }, [
+                  _vm._v(_vm._s(_vm.AuthUser.name))
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "flex text-md font-semibold" }, [
+                _c("div", [_vm._v("Email:")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "ml-2" }, [
+                  _vm._v(_vm._s(_vm.AuthUser.email))
+                ])
+              ])
+            ])
+          ])
+        ]
+      )
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

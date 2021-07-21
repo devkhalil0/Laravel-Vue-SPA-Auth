@@ -53,8 +53,8 @@ export default {
         data(){
             return{
                 form:{
-                    email: '',
-                    password: '',
+                    email: 'khalilvaai@gmail.com',
+                    password: '11111111',
                     remember: false
                     }
             }
@@ -86,7 +86,15 @@ export default {
                     this.form.email = '';
                     this.form.password = '';
                     this.GetUser();
-                    this.$router.push({name: 'Dashboard'});
+                    if(this.$store.getters.AdminStatus){
+                        if(this.$store.getters.AuthUser.role === 'admin'){
+                            this.$router.push({name: 'Admin-Dashboard'});
+                        }else{
+                            this.$router.push({name: 'Dashboard'});
+                        }
+                    }else{
+                        this.$router.push({name: 'Dashboard'});
+                    }
                     this.$store.dispatch('checkAdmin');
                     }
                     if(res.data.errors)
@@ -96,7 +104,7 @@ export default {
                     this.$store.commit('SET_ToastMessage', res.data.errors);
                     setTimeout(() => {
                             this.$store.commit('SET_TOAST', false);
-                    }, 3000);   
+                    }, 3000);
                     }
 
                 })

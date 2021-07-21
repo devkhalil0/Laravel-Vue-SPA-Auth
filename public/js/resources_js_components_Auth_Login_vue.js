@@ -65,8 +65,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       form: {
-        email: '',
-        password: '',
+        email: 'khalilvaai@gmail.com',
+        password: '11111111',
         remember: false
       }
     };
@@ -105,9 +105,21 @@ __webpack_require__.r(__webpack_exports__);
 
           _this2.GetUser();
 
-          _this2.$router.push({
-            name: 'Dashboard'
-          });
+          if (_this2.$store.getters.AdminStatus) {
+            if (_this2.$store.getters.AuthUser.role === 'admin') {
+              _this2.$router.push({
+                name: 'Admin-Dashboard'
+              });
+            } else {
+              _this2.$router.push({
+                name: 'Dashboard'
+              });
+            }
+          } else {
+            _this2.$router.push({
+              name: 'Dashboard'
+            });
+          }
 
           _this2.$store.dispatch('checkAdmin');
         }

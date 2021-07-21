@@ -137,7 +137,9 @@ var render = function() {
         [
           _c("div", { staticClass: "w-full" }, [
             _c("div", { staticClass: "w-full bg-gray-100 p-4 text-lg" }, [
-              _vm._v("\n                Welcome To Dashboard\n            ")
+              _vm._v(
+                "\n                Welcome To User Dashboard\n            "
+              )
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "bg-white p-4" }, [

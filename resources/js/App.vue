@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <div class="hidden sm:flex sm:items-center sm:ml-6">
-                        
+
                         <!-- Settings Dropdown -->
                         <div v-if="Authenticated" class="ml-3 relative">
                             <dropdown align="right" width="48">
@@ -71,7 +71,7 @@
             <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                 <!-- Responsive Settings Options -->
                 <div class="border-t-2 border-gray-200">
-                    
+
                     <!-- Settings Dropdown -->
                     <div v-if="Authenticated" class="relative">
                         <dropdown align="left" width="48">
@@ -128,7 +128,7 @@ export default {
             }
         },
         computed:{
-           
+
         },
         methods:{
             Logout(){
@@ -147,6 +147,7 @@ export default {
                     }
                     localStorage.removeItem("auth", false);
                     this.$store.commit('SET_ADMIN', false);
+                    // this.$store.commit('SET_AUTHUSER', null);
                 })
                 .catch((e) => {
                     this.$store.commit('SET_TOAST', 'Warning');
@@ -156,7 +157,7 @@ export default {
                     }, 3000);
                 })
             },
-            
+
         }
 }
 </script>

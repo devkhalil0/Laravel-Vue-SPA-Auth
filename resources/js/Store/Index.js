@@ -9,9 +9,10 @@ export default {
         // Auth User
         AuthUser: [],
         Authenticated: false,
-        // Admin Check 
+        // Admin Check
         IsAdmin: false,
-        // Email Verification 
+        AdminStatus: true,
+        // Email Verification
         EmailVerifyMessage: false,
         EmailVerifyStatus: false,
     },
@@ -28,7 +29,7 @@ export default {
 
             }).catch(() => {
                 commit('SET_AUTHENTICATED', false)
-                commit('SET_AUTHUSER', null)
+                commit('SET_AUTHUSER', null);
                 localStorage.removeItem("auth");
 
                 if(this.CurrentRoute != 'Login'){
@@ -87,6 +88,9 @@ export default {
         },
         IsAdmin(state){
             return state.IsAdmin;
+        },
+        AdminStatus(state){
+            return state.AdminStatus;
         },
 
      }
