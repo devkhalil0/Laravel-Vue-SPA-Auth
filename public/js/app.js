@@ -2304,13 +2304,13 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
       }
     }
   }, {
-    path: "/forget-password",
-    name: "Forget-Password",
+    path: "/forgot-password",
+    name: "Forgot-Password",
     component: function component() {
-      return __webpack_require__.e(/*! import() */ "resources_js_Components_Auth_Password_ForgetPassword_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Components/Auth/Password/ForgetPassword.vue */ "./resources/js/Components/Auth/Password/ForgetPassword.vue"));
+      return __webpack_require__.e(/*! import() */ "resources_js_Components_Auth_Password_ForgotPassword_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Components/Auth/Password/ForgotPassword.vue */ "./resources/js/Components/Auth/Password/ForgotPassword.vue"));
     }
   }, {
-    path: "/confirm-password",
+    path: "/confirm-password/:token",
     name: "Confirm-Password",
     component: function component() {
       return __webpack_require__.e(/*! import() */ "resources_js_Components_Auth_Password_ConfirmPassword_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Components/Auth/Password/ConfirmPassword.vue */ "./resources/js/Components/Auth/Password/ConfirmPassword.vue"));
@@ -2323,7 +2323,25 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
     },
     beforeEnter: function beforeEnter(to, from, next) {
       if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Authenticated) {
-        next();
+        if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.AuthUser.email_verified_at === null) {
+          next();
+        } else {
+          _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'Your Email Verified !';
+          _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
+          setTimeout(function () {
+            _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
+          }, 2000);
+
+          if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.getters.AuthUser.role === 'admin') {
+            return next({
+              name: 'Admin-Dashboard'
+            });
+          } else {
+            return next({
+              name: 'Dashboard'
+            });
+          }
+        }
       } else {
         _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
         _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'You are not authenticated !';
@@ -2361,7 +2379,8 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
         next();
       }
     }
-  }, {
+  }, // For User 
+  {
     path: "/dashboard",
     name: "Dashboard",
     component: function component() {
@@ -2388,14 +2407,21 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
               next();
             }
           } else {
-            _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'No Permission !';
+            _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Authenticated ? "'No Permission !'" : "You are not authenticated !";
             _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
             setTimeout(function () {
               _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
             }, 2000);
-            return next({
-              name: 'Admin-Dashboard'
-            });
+
+            if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Authenticated) {
+              return next({
+                name: 'Admin-Dashboard'
+              });
+            } else {
+              return next({
+                name: 'Login'
+              });
+            }
           }
         } else {
           if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Authenticated) {
@@ -2427,7 +2453,15 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
           }
         }
       }, 1000);
-    }
+    },
+    // Others All User Routes 
+    children: [{
+      path: "dashboard2",
+      name: "Dashboard2",
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_Components_User_Dashboard_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Components/User/Dashboard.vue */ "./resources/js/Components/User/Dashboard.vue"));
+      }
+    }]
   }, //   For Admin
   {
     path: "/admin/dashboard",
@@ -2465,13 +2499,22 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
           });
         }
       }, 1000);
+    },
+    // Others All Admin Routes 
+    children: [{
+      path: "/admin/dashboard2",
+      name: "Admin-Dashboard2",
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_Components_Admin_Dashboard_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Components/Admin/Dashboard.vue */ "./resources/js/Components/Admin/Dashboard.vue"));
+      }
+    }]
+  }, {
+    path: "/:catchAll(.*)",
+    name: "NotFound",
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_components_NotFound_NotFound_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/NotFound/NotFound.vue */ "./resources/js/components/NotFound/NotFound.vue"));
     }
-  } // {
-  //   path: "/:catchAll(.*)",
-  //   name: "NotFound",
-  //   component: () => import("../components/NotFound/NotFound.vue")
-  // },
-  ],
+  }],
   mode: "history"
 }));
 
@@ -2495,6 +2538,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   state: {
+    // Admin and Email Verify System On Off 
+    EmailVerifyStatus: false,
+    AdminStatus: false,
     // Toast Status
     Toast: false,
     ToastMessage: null,
@@ -2503,10 +2549,8 @@ __webpack_require__.r(__webpack_exports__);
     Authenticated: false,
     // Admin Check
     IsAdmin: false,
-    AdminStatus: true,
     // Email Verification
-    EmailVerifyMessage: false,
-    EmailVerifyStatus: false
+    EmailVerifyMessage: false
   },
   actions: {
     authUser: function authUser(_ref) {
@@ -40852,7 +40896,7 @@ var index = {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_Components_Home_vue":1,"resources_js_Components_Auth_Login_vue":1,"resources_js_Components_Auth_Password_ForgetPassword_vue":1,"resources_js_Components_Auth_Password_ConfirmPassword_vue":1,"resources_js_Components_Auth_VerifyEmail_vue":1,"resources_js_Components_Auth_ConfirmEmail_vue":1,"resources_js_Components_Auth_Register_vue":1,"resources_js_Components_User_Dashboard_vue":1,"resources_js_Components_Admin_Dashboard_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_Components_Home_vue":1,"resources_js_Components_Auth_Login_vue":1,"resources_js_Components_Auth_Password_ForgotPassword_vue":1,"resources_js_Components_Auth_Password_ConfirmPassword_vue":1,"resources_js_Components_Auth_VerifyEmail_vue":1,"resources_js_Components_Auth_ConfirmEmail_vue":1,"resources_js_Components_Auth_Register_vue":1,"resources_js_Components_User_Dashboard_vue":1,"resources_js_Components_Admin_Dashboard_vue":1,"resources_js_components_NotFound_NotFound_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

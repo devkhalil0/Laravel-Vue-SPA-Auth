@@ -1,8 +1,10 @@
 <template>
-    <div class="flex flex-col sm:justify-center items-center ml-2 mr-2">
-        <div class="w-full sm:max-w-md mt-2 px-6 py-4 bg-white shadow overflow-hidden rounded-lg">
-            <div class="w-full">
-
+    <div class="mt-3 flex flex-col sm:justify-center items-center ml-2 mr-2">
+        <div class="w-full sm:max-w-md bg-white shadow overflow-hidden rounded-lg">
+            <div class="w-full bg-gray-100 p-3 text-lg">
+                <div class="ml-4">Login</div>
+            </div>
+            <div class="w-ful mt-2 px-6 py-4">
                 <div v-if="EmailVerifyMessage" class="text-md font-semibold p-1 bg-green-500 rounded text-white mt-2 mb-3">
                     <div class="flex justify-between">
                         <div class="ml-4 p-1">
@@ -36,8 +38,8 @@
                         </div>
 
                         <div class="flex items-center justify-between mt-4">
-                            <router-link :to="{name: 'Forget-Password'}" class="text-blue-500 font-medium">
-                                Forget Password ?
+                            <router-link :to="{name: 'Forgot-Password'}" class="text-blue-500 font-medium">
+                                Forgot Password ?
                             </router-link>
                             <button type="submit" class="ml-4 inline-flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-400 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150">Login</button>
                         </div>

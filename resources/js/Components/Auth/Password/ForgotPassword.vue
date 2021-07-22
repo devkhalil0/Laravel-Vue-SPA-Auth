@@ -1,14 +1,14 @@
 <template>
-    <div class="flex flex-col sm:justify-center items-center ml-2 mr-2">
-        <div class="w-full sm:max-w-md mt-2 px-6 py-4 bg-white shadow overflow-hidden rounded-lg">
-            <div class="w-full">
-                <div class="text-lg p-4 text-green-500">
-                    Account Verification Link Send Successfull !!
-                </div>
+    <div class="mt-4 flex flex-col sm:justify-center items-center ml-2 mr-2">
+        <div class="w-full sm:max-w-md bg-white shadow overflow-hidden rounded-lg">
+            <div class="bg-gray-100 text-lg p-4 w-full">
+                Password Reset
+            </div>
+            <div class="w-full px-6 py-4">
                 <div class="container my-2 mx-auto px-2">
                     <form @submit.prevent="submit">
                         <div class="">
-                            <label class="block font-medium text-sm text-gray-700">Your Account Email</label>
+                            <label class="block font-medium text-md text-gray-700">Your Account Email</label>
                             <input class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow" type="email" v-model="form.email" required autocomplete="current-email" />
                         </div>
 
@@ -25,7 +25,7 @@
 <script>
 export default {
         metaInfo:{
-                title: 'Forget Password',
+                title: 'Forgot Password',
             },
         data(){
             return{
@@ -33,7 +33,18 @@ export default {
                     email: '',
                     }
             }
-        }
+        },
+       methods:{
+           submit(){
+               axios.post('/api/password/reset', this.form)
+               .then((res) =>{
+                   console.log(res);
+               })
+               .catch((e) =>{
+                   console.log(e);
+               })
+           }
+       }
 }
 </script>
 

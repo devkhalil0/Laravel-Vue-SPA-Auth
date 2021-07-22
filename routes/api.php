@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\ConfirmPasswordController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -35,6 +37,11 @@ Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LogoutController::class, 'logout']);
 Route::get('email/verify/{token}', [VerificationController::class, 'verifyemail']);
+Route::post('email/verify/resendlink', [VerificationController::class, 'resendlink']);
+// password 
+Route::post('password/reset',[ForgotPasswordController::class, 'forgotpassword']);
+Route::get('password/confirmation/{token}',[ConfirmPasswordController::class, 'confirmpassword']);
+Route::post('password/change',[ConfirmPasswordController::class, 'changepassword']);
 
 Route::middleware('auth:sanctum')->get('/authenticated/admin', function () {
 

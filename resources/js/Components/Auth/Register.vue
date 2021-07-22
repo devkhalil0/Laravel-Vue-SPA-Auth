@@ -1,7 +1,10 @@
 <template>
-    <div class="flex flex-col sm:justify-center items-center ml-2 mr-2">
-        <div class="w-full sm:max-w-md mt-2 px-6 py-4 bg-white shadow overflow-hidden rounded-lg">
-            <div class="w-full">
+    <div class="mt-3 flex flex-col sm:justify-center items-center ml-2 mr-2">
+        <div class="w-full sm:max-w-md bg-white shadow overflow-hidden rounded-lg">
+            <div class="w-full bg-gray-100 p-3 text-lg">
+                <div class="ml-4">Register</div>
+            </div>
+            <div class="w-full mt-2 px-6 py-4">
                 <div class="container my-2 mx-auto px-2">
                     <form @submit.prevent="submit">
                         <div>

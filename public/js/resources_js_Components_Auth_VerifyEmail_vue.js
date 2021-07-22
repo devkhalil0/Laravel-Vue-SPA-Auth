@@ -32,6 +32,48 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   metaInfo: {
     title: 'Verify Email Address'
+  },
+  methods: {
+    ResendLink: function ResendLink() {
+      var _this = this;
+
+      axios.post('/api/email/verify/resendlink').then(function (res) {
+        _this.$store.commit('SET_TOAST', 'Success');
+
+        _this.$store.commit('SET_ToastMessage', res.data.success);
+
+        setTimeout(function () {
+          _this.$store.commit('SET_TOAST', false);
+        }, 3000);
+
+        _this.Logout();
+      })["catch"](function (e) {
+        _this.$store.commit('SET_TOAST', 'Warning');
+
+        _this.$store.commit('SET_ToastMessage', 'Something Is Wrong');
+
+        setTimeout(function () {
+          _this.$store.commit('SET_TOAST', false);
+        }, 3000);
+      });
+    },
+    Logout: function Logout() {
+      var _this2 = this;
+
+      axios.post('/api/logout').then(function (res) {
+        _this2.$store.commit('SET_AUTHENTICATED', false);
+
+        if (_this2.CurrentRoute != 'Login') {
+          _this2.$router.push({
+            name: 'Login'
+          });
+        }
+
+        localStorage.removeItem("auth", false);
+
+        _this2.$store.commit('SET_ADMIN', false);
+      })["catch"](function (e) {});
+    }
   }
 });
 
@@ -125,53 +167,48 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "flex flex-col sm:justify-center items-center ml-2 mr-2" },
-      [
-        _c(
-          "div",
-          {
-            staticClass:
-              "w-full sm:max-w-lg mt-2 bg-white shadow overflow-hidden"
-          },
-          [
-            _c("div", { staticClass: "w-full" }, [
-              _c("div", { staticClass: "w-full bg-gray-100 p-4 text-lg" }, [
-                _vm._v(
-                  "\n                Verify Your Email Address !\n            "
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "bg-white p-4" }, [
-                _c("div", { staticClass: "text-md font-semibold" }, [
-                  _c("div", [
-                    _vm._v(
-                      "if you are not received verification email , click verify email below !!"
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "ml-2 mt-2 text-blue-400 hover:underline" },
-                    [_vm._v("Verify Email")]
+  return _c(
+    "div",
+    { staticClass: "flex flex-col sm:justify-center items-center ml-2 mr-2" },
+    [
+      _c(
+        "div",
+        {
+          staticClass: "w-full sm:max-w-lg mt-2 bg-white shadow overflow-hidden"
+        },
+        [
+          _c("div", { staticClass: "w-full" }, [
+            _c("div", { staticClass: "w-full bg-gray-100 p-4 text-lg" }, [
+              _vm._v(
+                "\n                Verify Your Email Address !\n            "
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "bg-white p-4" }, [
+              _c("div", { staticClass: "text-md font-semibold" }, [
+                _c("div", [
+                  _vm._v(
+                    "if you are not received verification email , click verify email below !!"
                   )
-                ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "ml-2 mt-2 text-blue-400 hover:underline",
+                    on: { click: _vm.ResendLink }
+                  },
+                  [_vm._v("Verify Email")]
+                )
               ])
             ])
-          ]
-        )
-      ]
-    )
-  }
-]
+          ])
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = []
 render._withStripped = true
 
 

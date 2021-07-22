@@ -2,17 +2,15 @@
 
 namespace App\Mail;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class MailVerifiaction extends Mailable
+class PasswordReset extends Mailable
 {
     use Queueable, SerializesModels;
     public $user;
-
     /**
      * Create a new message instance.
      *
@@ -30,7 +28,6 @@ class MailVerifiaction extends Mailable
      */
     public function build()
     {
-        
         return $this->view('mail.EmailVerification');
     }
 }

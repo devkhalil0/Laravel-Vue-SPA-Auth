@@ -31,12 +31,12 @@ export default new Router({
     }
     },
     {
-    path: "/forget-password",
-    name: "Forget-Password",
-    component: () => import("../Components/Auth/Password/ForgetPassword.vue"),
+    path: "/forgot-password",
+    name: "Forgot-Password",
+    component: () => import("../Components/Auth/Password/ForgotPassword.vue"),
     },
     {
-    path: "/confirm-password",
+    path: "/confirm-password/:token",
     name: "Confirm-Password",
     component: () => import("../Components/Auth/Password/ConfirmPassword.vue"),
     },
@@ -47,7 +47,20 @@ export default new Router({
     beforeEnter: (to, from, next) => {
         if(store.state.Authenticated)
             {
-                next();
+                if(store.state.AuthUser.email_verified_at === null){
+                    next();
+                }else{
+                    store.state.ToastMessage = 'Your Email Verified !';
+                    store.state.Toast = 'Warning';
+                    setTimeout(() => {
+                        store.state.Toast = false;
+                    }, 2000);
+                    if(store.getters.AuthUser.role === 'admin'){
+                        return next({ name: 'Admin-Dashboard'});
+                    }else{
+                        return next({ name: 'Dashboard'});
+                    }
+                }
             }
             else{
                 store.state.Toast = 'Warning';
@@ -84,6 +97,7 @@ export default new Router({
         }
     }
     },
+    // For User 
     {
     path: "/dashboard",
     name: "Dashboard",
@@ -108,12 +122,16 @@ export default new Router({
                         next();
                     }
                 }else{
-                    store.state.ToastMessage = 'No Permission !';
+                    store.state.ToastMessage = store.state.Authenticated ? "'No Permission !'" : "You are not authenticated !";
                     store.state.Toast = 'Warning';
                     setTimeout(() => {
                         store.state.Toast = false;
                     }, 2000);
-                    return next({ name: 'Admin-Dashboard'});
+                    if(store.state.Authenticated){
+                        return next({ name: 'Admin-Dashboard'});
+                    }else{
+                        return next({ name: 'Login'});
+                    }
                 }
             }else{
                 if(store.state.Authenticated){
@@ -142,7 +160,15 @@ export default new Router({
                 }
             }
         }, 1000);
-    }
+    },
+    // Others All User Routes 
+    children: [
+        {
+            path: "dashboard2",
+            name: "Dashboard2",
+            component: () => import("../Components/User/Dashboard.vue"),
+        },
+    ]
     },
     //   For Admin
     {
@@ -176,13 +202,21 @@ export default new Router({
                 return next({ name: 'Dashboard'});
             }
         }, 1000);
-    }
-      },
-    // {
-    //   path: "/:catchAll(.*)",
-    //   name: "NotFound",
-    //   component: () => import("../components/NotFound/NotFound.vue")
-    // },
+    },
+    // Others All Admin Routes 
+    children: [
+        {
+            path: "/admin/dashboard2",
+            name: "Admin-Dashboard2",
+            component: () => import("../Components/Admin/Dashboard.vue"),
+        },
+    ]   
+    },
+    {
+      path: "/:catchAll(.*)",
+      name: "NotFound",
+      component: () => import("../components/NotFound/NotFound.vue")
+    },
   ],
   mode: "history"
 });

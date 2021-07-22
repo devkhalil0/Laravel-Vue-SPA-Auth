@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 
+
 class RegisterController extends Controller
 {
     /*
@@ -92,7 +93,7 @@ class RegisterController extends Controller
         $user->password = Hash::make($request->password);
         $user->remember_token = Str::random(32);
         $user->save();
-        Mail::to($user->email)->queue(new MailVerifiaction($user));
+        // Mail::to($user->email)->queue(new MailVerifiaction($user));
         return response()->json(['success' => 'Registration Successfull !']);
     }
 }

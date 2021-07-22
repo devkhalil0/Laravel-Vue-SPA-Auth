@@ -42,6 +42,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   metaInfo: {
     title: 'Confirm Password'
@@ -49,6 +70,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       loading: false,
+      WaitTime: true,
       form: {
         email: '',
         password: '',
@@ -56,7 +78,32 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
-  methods: {}
+  mounted: function mounted() {
+    var _this = this;
+
+    this.ConfirmPassword();
+    setTimeout(function () {
+      _this.WaitTime = false;
+    }, 3000);
+  },
+  methods: {
+    ConfirmPassword: function ConfirmPassword() {
+      var _this2 = this;
+
+      axios.get('/api/password/confirmation/' + this.$route.params.token).then(function (res) {
+        console.log(res.data.user.email);
+        _this2.form.email = res.data.user.email;
+      })["catch"](function (e) {
+        _this2.$store.commit('SET_TOAST', 'Warning');
+
+        _this2.$store.commit('SET_ToastMessage', 'Something Is Wrong');
+
+        setTimeout(function () {
+          _this2.$store.commit('SET_TOAST', false);
+        }, 3000);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -151,148 +198,221 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "flex flex-col sm:justify-center items-center ml-2 mr-2" },
+    {
+      staticClass: "mt-3 flex flex-col sm:justify-center items-center ml-2 mr-2"
+    },
     [
       _c(
         "div",
         {
           staticClass:
-            "w-full sm:max-w-md mt-2 px-6 py-4 bg-white shadow overflow-hidden rounded-lg"
+            "w-full sm:max-w-md bg-white shadow overflow-hidden rounded-lg"
         },
         [
-          _c("div", { staticClass: "w-full" }, [
-            _c("div", { staticClass: "container my-2 mx-auto px-2" }, [
-              _c(
-                "form",
-                {
-                  on: {
-                    submit: function($event) {
-                      $event.preventDefault()
-                      return _vm.submit.apply(null, arguments)
-                    }
-                  }
-                },
-                [
-                  _c("div", {}, [
+          _c("div", { staticClass: "w-full bg-gray-100 p-3 text-lg" }, [
+            _vm._v("\n            Confirm Password\n        ")
+          ]),
+          _vm._v(" "),
+          _vm.WaitTime
+            ? _c("div", { staticClass: "bg-white p-4" }, [
+                _c(
+                  "div",
+                  { staticClass: "flex text-md mt-4 mb-4 font-semibold" },
+                  [
                     _c(
-                      "label",
+                      "div",
                       {
-                        staticClass: "block font-medium text-sm text-gray-700"
+                        staticClass:
+                          "w-full text-md font-semibold p-1 rounded mt-2 mb-3"
                       },
-                      [_vm._v("Email")]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.email,
-                          expression: "form.email"
-                        }
-                      ],
-                      staticClass:
-                        "mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow",
-                      attrs: {
-                        type: "email",
-                        required: "",
-                        autocomplete: "current-email"
-                      },
-                      domProps: { value: _vm.form.email },
+                      [
+                        _c("div", { staticClass: "w-full" }, [
+                          _c(
+                            "div",
+                            { staticClass: "flex justify-center p-4" },
+                            [
+                              _c(
+                                "svg",
+                                {
+                                  staticClass: "text-green-500 bi bi-stopwatch",
+                                  attrs: {
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                    width: "40",
+                                    height: "40",
+                                    fill: "currentColor",
+                                    viewBox: "0 0 16 16"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M8.5 5.6a.5.5 0 1 0-1 0v2.9h-3a.5.5 0 0 0 0 1H8a.5.5 0 0 0 .5-.5V5.6z"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M6.5 1A.5.5 0 0 1 7 .5h2a.5.5 0 0 1 0 1v.57c1.36.196 2.594.78 3.584 1.64a.715.715 0 0 1 .012-.013l.354-.354-.354-.353a.5.5 0 0 1 .707-.708l1.414 1.415a.5.5 0 1 1-.707.707l-.353-.354-.354.354a.512.512 0 0 1-.013.012A7 7 0 1 1 7 2.071V1.5a.5.5 0 0 1-.5-.5zM8 3a6 6 0 1 0 .001 12A6 6 0 0 0 8 3z"
+                                    }
+                                  })
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "ml-4 p-1 text-center" }, [
+                            _vm._v(
+                              "\n                                Please Wait...\n                        "
+                            )
+                          ])
+                        ])
+                      ]
+                    )
+                  ]
+                )
+              ])
+            : _c("div", { staticClass: "w-full mt-2 px-6 py-4" }, [
+                _c("div", { staticClass: "container my-2 mx-auto px-2" }, [
+                  _c(
+                    "form",
+                    {
                       on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "email", $event.target.value)
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.submit.apply(null, arguments)
                         }
                       }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "mt-1" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass: "block font-medium text-sm text-gray-700"
-                      },
-                      [_vm._v("Password")]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.password,
-                          expression: "form.password"
-                        }
-                      ],
-                      staticClass:
-                        "mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow",
-                      attrs: {
-                        type: "password",
-                        required: "",
-                        autocomplete: "current-password"
-                      },
-                      domProps: { value: _vm.form.password },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                    },
+                    [
+                      _c("div", {}, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "block font-medium text-sm text-gray-700"
+                          },
+                          [_vm._v("Email")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.email,
+                              expression: "form.email"
+                            }
+                          ],
+                          staticClass:
+                            "mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow",
+                          attrs: {
+                            type: "email",
+                            required: "",
+                            autocomplete: "current-email"
+                          },
+                          domProps: { value: _vm.form.email },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.form, "email", $event.target.value)
+                            }
                           }
-                          _vm.$set(_vm.form, "password", $event.target.value)
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "mt-1" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass: "block font-medium text-sm text-gray-700"
-                      },
-                      [_vm._v("Confirm Password")]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.password_confirmation,
-                          expression: "form.password_confirmation"
-                        }
-                      ],
-                      staticClass:
-                        "mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow",
-                      attrs: {
-                        type: "password",
-                        required: "",
-                        autocomplete: "current-password"
-                      },
-                      domProps: { value: _vm.form.password_confirmation },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "mt-1" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "block font-medium text-sm text-gray-700"
+                          },
+                          [_vm._v("Password")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.password,
+                              expression: "form.password"
+                            }
+                          ],
+                          staticClass:
+                            "mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow",
+                          attrs: {
+                            type: "password",
+                            required: "",
+                            autocomplete: "current-password"
+                          },
+                          domProps: { value: _vm.form.password },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "password",
+                                $event.target.value
+                              )
+                            }
                           }
-                          _vm.$set(
-                            _vm.form,
-                            "password_confirmation",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(0)
-                ]
-              )
-            ])
-          ])
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "mt-1" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "block font-medium text-sm text-gray-700"
+                          },
+                          [_vm._v("Confirm Password")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.password_confirmation,
+                              expression: "form.password_confirmation"
+                            }
+                          ],
+                          staticClass:
+                            "mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow",
+                          attrs: {
+                            type: "password",
+                            required: "",
+                            autocomplete: "current-password"
+                          },
+                          domProps: { value: _vm.form.password_confirmation },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "password_confirmation",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(0)
+                    ]
+                  )
+                ])
+              ])
         ]
       )
     ]

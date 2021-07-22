@@ -47,6 +47,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   metaInfo: {
     title: 'Register'
@@ -206,16 +209,20 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "flex flex-col sm:justify-center items-center ml-2 mr-2" },
+    {
+      staticClass: "mt-3 flex flex-col sm:justify-center items-center ml-2 mr-2"
+    },
     [
       _c(
         "div",
         {
           staticClass:
-            "w-full sm:max-w-md mt-2 px-6 py-4 bg-white shadow overflow-hidden rounded-lg"
+            "w-full sm:max-w-md bg-white shadow overflow-hidden rounded-lg"
         },
         [
-          _c("div", { staticClass: "w-full" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "w-full mt-2 px-6 py-4" }, [
             _c("div", { staticClass: "container my-2 mx-auto px-2" }, [
               _c(
                 "form",
@@ -380,7 +387,7 @@ var render = function() {
                     })
                   ]),
                   _vm._v(" "),
-                  _vm._m(0)
+                  _vm._m(1)
                 ]
               )
             ])
@@ -391,6 +398,14 @@ var render = function() {
   )
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full bg-gray-100 p-3 text-lg" }, [
+      _c("div", { staticClass: "ml-4" }, [_vm._v("Register")])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
