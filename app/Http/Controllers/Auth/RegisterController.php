@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\MailVerifiaction;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -87,7 +90,9 @@ class RegisterController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
+        $user->remember_token = Str::random(32);
         $user->save();
+        Mail::to($user->email)->queue(new MailVerifiaction($user));
         return response()->json(['success' => 'Registration Successfull !']);
     }
 }

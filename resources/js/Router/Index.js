@@ -44,6 +44,26 @@ export default new Router({
     path: "/verify-email",
     name: "Verify-Email",
     component: () => import("../Components/Auth/VerifyEmail.vue"),
+    beforeEnter: (to, from, next) => {
+        if(store.state.Authenticated)
+            {
+                next();
+            }
+            else{
+                store.state.Toast = 'Warning';
+                store.state.ToastMessage = 'You are not authenticated !';
+                setTimeout(() => {
+                    store.state.Toast = false;
+                }, 3000);
+                return next({ name: 'Login'});
+
+            }
+        }
+    },
+    {
+    path: '/confirm-email/:token',
+    name: "Confirm-Email",
+    component: () => import("../Components/Auth/ConfirmEmail.vue"),
     },
     {
     path: "/register",
@@ -64,42 +84,6 @@ export default new Router({
         }
     }
     },
-    // {
-    // path: "/dashboard",
-    // name: "Dashboard",
-    // component: () => import("../Components/User/Dashboard.vue"),
-    // beforeEnter: (to, from, next) => {
-    //     axios.get('/api/authenticated')
-    //         .then(()=>{
-    //             console.log(store.state.Authenticated);
-    //             if(store.state.EmailVerifyStatus === true){
-    //                 if(store.state.AuthUser.email_verified_at === null){
-
-    //                     store.state.ToastMessage = 'Please Verify Your Email !';
-    //                     store.state.Toast = 'Warning';
-    //                     setTimeout(() => {
-    //                         store.state.Toast = false;
-    //                     }, 2000);
-    //                     return next({ name: 'Verify-Email'});
-    //                 }else{
-    //                     next();
-    //                 }
-    //             }else{
-    //                 next();
-    //             }
-
-    //         })
-    //         .catch(()=>{
-    //         store.state.ToastMessage = 'You are not authenticated !';
-    //         store.state.Toast = 'Warning';
-    //         setTimeout(() => {
-    //             store.state.Toast = false;
-    //         }, 2000);
-    //         return next({ name: 'Login'});
-
-    //         })
-    //     },
-    //   },
     {
     path: "/dashboard",
     name: "Dashboard",

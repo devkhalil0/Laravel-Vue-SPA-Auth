@@ -22,6 +22,9 @@
 
 <script>
 export default {
+    metaInfo:{
+                title: 'User Dashboard',
+            },
 
 }
 </script>

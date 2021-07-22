@@ -37,9 +37,16 @@
                                     <div class="block px-4 py-2 text-xs text-gray-400 w-full text-left">
                                         Manage Account
                                     </div>
-                                    <router-link :to="{name: 'Dashboard'}" :class="CurrentRoute === 'Dashboard' ? 'bg-gray-50' : ''" class="text-left w-full text-lg block border-t px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
-                                        Dashboard
-                                    </router-link>
+                                    <div v-if="AuthUser.role === 'user'">
+                                        <router-link :to="{name: 'Dashboard'}" :class="CurrentRoute === 'Dashboard' ? 'bg-gray-50' : ''" class="text-left w-full text-lg block border-t px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
+                                            Dashboard
+                                        </router-link>
+                                    </div>
+                                    <div v-if="AuthUser.role === 'admin'">
+                                        <router-link :to="{name: 'Admin-Dashboard'}" :class="CurrentRoute === 'Dashboard' ? 'bg-gray-50' : ''" class="text-left w-full text-lg block border-t px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
+                                            Dashboard
+                                        </router-link>
+                                    </div>
                                     <div @click="Logout" class="text-left w-full focus:outline-none text-lg block border-t px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
                                         Logout
                                     </div>

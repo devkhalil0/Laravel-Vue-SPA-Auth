@@ -36,6 +36,9 @@
 
 <script>
     export default {
+        metaInfo:{
+                title: 'Register',
+            },
         data() {
             return {
                 loading: false,

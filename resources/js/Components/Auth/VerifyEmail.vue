@@ -18,6 +18,9 @@
 
 <script>
 export default {
+    metaInfo:{
+                title: 'Verify Email Address',
+            },
         
 }
 </script>

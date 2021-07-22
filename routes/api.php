@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\VerificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,7 @@ Route::middleware('auth:sanctum')->get('/authenticated', function () {
 Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LogoutController::class, 'logout']);
+Route::get('email/verify/{token}', [VerificationController::class, 'verifyemail']);
 
 Route::middleware('auth:sanctum')->get('/authenticated/admin', function () {
 
@@ -43,11 +45,11 @@ Route::middleware('auth:sanctum')->get('/authenticated/admin', function () {
     }
 });
 
-// For User 
-Route::group(['middleware' => ['auth:sanctum']], function (){ 
+// For User
+Route::group(['middleware' => ['auth:sanctum']], function (){
 
 });
 // For Admin
-Route::group(['middleware' => ['auth:sanctum', 'admin']], function (){ 
+Route::group(['middleware' => ['auth:sanctum', 'admin']], function (){
 
 });

@@ -31,6 +31,9 @@
 
 <script>
     export default {
+        metaInfo:{
+                title: 'Confirm Password',
+            },
         data() {
             return {
                 loading: false,

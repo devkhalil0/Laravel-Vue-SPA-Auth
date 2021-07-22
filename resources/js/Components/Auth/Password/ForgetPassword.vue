@@ -24,6 +24,9 @@
 
 <script>
 export default {
+        metaInfo:{
+                title: 'Forget Password',
+            },
         data(){
             return{
                 form:{

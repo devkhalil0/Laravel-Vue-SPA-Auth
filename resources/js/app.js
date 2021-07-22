@@ -7,19 +7,25 @@ window.Vue = require('vue').default;
 Vue.component('main-component', require('./App.vue').default);
 // extra component register \
 Vue.component('dropdown', require('./Components/Dropdown/Dropdown.vue').default);
-// Toast Component 
+// Toast Component
 Vue.component('toast-success', require('./Components/Toast/ToastSuccess.vue').default)
 Vue.component('toast-error', require('./Components/Toast/ToastError.vue').default)
 Vue.component('toast-warning', require('./Components/Toast/ToastWarning.vue').default)
 
-// Vue Router 
+// Vue Router
 import router from './Router/Index'
-//  Vuex 
+//  Vuex
 import Vuex from 'vuex'
 Vue.use(Vuex)
 import StoreVuex from './Store/Index'
 const store = new Vuex.Store(StoreVuex)
-// mixin 
+// Vue Meta
+import VueMeta from 'vue-meta'
+Vue.use(VueMeta, {
+  // optional pluginOptions
+  refreshOnceOnNavigation: true
+})
+// mixin
 Vue.mixin
  ({
     computed:{
@@ -33,7 +39,7 @@ Vue.mixin
                 return this.$route.name;
             },
         },
-   
+
     })
 let auth = localStorage.getItem("auth");
 
@@ -41,8 +47,11 @@ let auth = localStorage.getItem("auth");
 if(auth){
     store.dispatch('authUser').then(() => {
     store.dispatch('checkAdmin');
-    
+
         const app = new Vue({
+            metaInfo: {
+                titleTemplate: title => (title ? `${title} - Khalilvaai` : 'Khalilvaai'),
+              },
             store,
             router,
             el: '#app',
@@ -50,6 +59,9 @@ if(auth){
     });
 }else {
     const app = new Vue({
+        metaInfo: {
+            titleTemplate: title => (title ? `${title} - Khalilvaai` : 'Khalilvaai'),
+          },
         store,
         router,
         el: '#app',
