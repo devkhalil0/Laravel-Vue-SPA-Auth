@@ -154,7 +154,6 @@ export default {
                     }
                     localStorage.removeItem("auth", false);
                     this.$store.commit('SET_ADMIN', false);
-                    // this.$store.commit('SET_AUTHUSER', null);
                 })
                 .catch((e) => {
                     this.$store.commit('SET_TOAST', 'Warning');

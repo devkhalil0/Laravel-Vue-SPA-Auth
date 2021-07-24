@@ -22,28 +22,38 @@
                     </div>
                 </div>
             </div>
-            <div v-else class="w-full mt-2 px-6 py-4">
+            <div v-else-if="Response.user" class="w-full mt-2 px-6 py-4">
                 <div class="container my-2 mx-auto px-2">
                     <form @submit.prevent="submit">
                         <div class="">
                             <label class="block font-medium text-sm text-gray-700">Email</label>
-                            <input class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow" type="email" v-model="form.email" required autocomplete="current-email" />
+                            <input disabled class="bg-gray-50 mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow" type="email" v-model="form.email" required autocomplete="current-email" />
                         </div>
 
                         <div class="mt-1">
                             <label class="block font-medium text-sm text-gray-700">Password</label>
-                            <input class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow" type="password" v-model="form.password" required autocomplete="current-password" />
+                            <input placeholder="Your Password" class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow" type="password" v-model="form.password" required autocomplete="current-password" />
                         </div>
 
                         <div class="mt-1">
                             <label class="block font-medium text-sm text-gray-700">Confirm Password</label>
-                            <input class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow" type="password" v-model="form.password_confirmation" required autocomplete="current-password" />
+                            <input placeholder="Confirm Password" class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow" type="password" v-model="form.password_confirmation" required autocomplete="current-password" />
                         </div>
 
                         <div class="flex items-center justify-end mt-4">
                             <button type="submit" class="ml-4 inline-flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-400 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150">Submit</button>
                         </div>
                     </form>
+                </div>
+            </div>
+            <!-- For Errors  -->
+            <div v-else v-for="(res,i) in Response" :key="i" class="flex text-md mt-8 mb-8 ml-4 mr-4 font-semibold">
+                <div class="w-full text-md font-semibold p-1 bg-red-500 rounded text-white mt-2 mb-3">
+                    <div class="flex justify-between">
+                        <div class="ml-4 p-1">
+                                {{ res }}!
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -59,6 +69,7 @@
             return {
                 loading: false,
                 WaitTime: true,
+                Response: '',
                 form:{
                     email: '',
                     password: '',
@@ -76,15 +87,37 @@
             ConfirmPassword(){
                 axios.get('/api/password/confirmation/'+this.$route.params.token)
                 .then((res) => {
-                    console.log(res.data.user.email);
-                    this.form.email = res.data.user.email;
+                    this.Response = res.data;
+                    if(res.data.user){
+                        this.form.email = res.data.user.email;
+                    }
                 })
                 .catch((e) => {
-                    this.$store.commit('SET_TOAST', 'Warning');
-                    this.$store.commit('SET_ToastMessage', 'Something Is Wrong');
-                    setTimeout(() => {
-                            this.$store.commit('SET_TOAST', false);
-                    }, 3000);
+                })
+            },
+            submit(){
+                axios.post('/api/password/change', this.form)
+                .then((res) =>{
+                    if(res.data.success){
+                        this.$store.commit('SET_TOAST', 'Success');
+                        this.$store.commit('SET_ToastMessage', res.data.success);
+                        setTimeout(() => {
+                                this.$store.commit('SET_TOAST', false);
+                        }, 3000);
+                        if(this.CurrentRoute != 'Login'){
+                            this.$router.push({name: 'Login'});
+                        }
+                    }
+                    if(res.data.errors){
+                        this.$store.commit('SET_TOAST', 'Errors');
+                        this.$store.commit('SET_ToastMessage', res.data.errors);
+                        setTimeout(() => {
+                                this.$store.commit('SET_TOAST', false);
+                        }, 3000);
+                    }
+                })
+                .catch(e => {
+                    
                 })
             }
         }

@@ -74,6 +74,7 @@ export default {
         EmailVerify(){
             axios.get('/api/email/verify/'+this.$route.params.token)
             .then((res) => {
+                
                 this.Response = res.data;
             })
             .catch((e) => {

@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\ConfirmsPasswords;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 class ConfirmPasswordController extends Controller
 {
@@ -28,6 +30,21 @@ class ConfirmPasswordController extends Controller
         
     }
     public function changepassword(Request $request){
+
+        $validator = Validator::make($request->all(), [
+
+            'password' => 'required|confirmed|min:6|max:32'
+        ]);
+        if ($validator->fails()) {
+            
+            return response()->json(['errors' => $validator->errors()]);
+        }
+        $user = User::where('email', $request->email)->first();
+        $user->password = Hash::make($request->password);
+        $user->remember_token = null;
+        $user->save();
+
+        return response()->json(['success' => 'Password Reset Successfull !']);
 
     }
 }

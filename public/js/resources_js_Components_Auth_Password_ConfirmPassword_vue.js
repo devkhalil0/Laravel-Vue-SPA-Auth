@@ -63,6 +63,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   metaInfo: {
     title: 'Confirm Password'
@@ -71,6 +81,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       loading: false,
       WaitTime: true,
+      Response: '',
       form: {
         email: '',
         password: '',
@@ -91,17 +102,43 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios.get('/api/password/confirmation/' + this.$route.params.token).then(function (res) {
-        console.log(res.data.user.email);
-        _this2.form.email = res.data.user.email;
-      })["catch"](function (e) {
-        _this2.$store.commit('SET_TOAST', 'Warning');
+        _this2.Response = res.data;
 
-        _this2.$store.commit('SET_ToastMessage', 'Something Is Wrong');
+        if (res.data.user) {
+          _this2.form.email = res.data.user.email;
+        }
+      })["catch"](function (e) {});
+    },
+    submit: function submit() {
+      var _this3 = this;
 
-        setTimeout(function () {
-          _this2.$store.commit('SET_TOAST', false);
-        }, 3000);
-      });
+      axios.post('/api/password/change', this.form).then(function (res) {
+        if (res.data.success) {
+          _this3.$store.commit('SET_TOAST', 'Success');
+
+          _this3.$store.commit('SET_ToastMessage', res.data.success);
+
+          setTimeout(function () {
+            _this3.$store.commit('SET_TOAST', false);
+          }, 3000);
+
+          if (_this3.CurrentRoute != 'Login') {
+            _this3.$router.push({
+              name: 'Login'
+            });
+          }
+        }
+
+        if (res.data.errors) {
+          _this3.$store.commit('SET_TOAST', 'Errors');
+
+          _this3.$store.commit('SET_ToastMessage', res.data.errors);
+
+          setTimeout(function () {
+            _this3.$store.commit('SET_TOAST', false);
+          }, 3000);
+        }
+      })["catch"](function (e) {});
     }
   }
 });
@@ -273,7 +310,8 @@ var render = function() {
                   ]
                 )
               ])
-            : _c("div", { staticClass: "w-full mt-2 px-6 py-4" }, [
+            : _vm.Response.user
+            ? _c("div", { staticClass: "w-full mt-2 px-6 py-4" }, [
                 _c("div", { staticClass: "container my-2 mx-auto px-2" }, [
                   _c(
                     "form",
@@ -306,8 +344,9 @@ var render = function() {
                             }
                           ],
                           staticClass:
-                            "mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow",
+                            "bg-gray-50 mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow",
                           attrs: {
+                            disabled: "",
                             type: "email",
                             required: "",
                             autocomplete: "current-email"
@@ -346,6 +385,7 @@ var render = function() {
                           staticClass:
                             "mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow",
                           attrs: {
+                            placeholder: "Your Password",
                             type: "password",
                             required: "",
                             autocomplete: "current-password"
@@ -388,6 +428,7 @@ var render = function() {
                           staticClass:
                             "mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow",
                           attrs: {
+                            placeholder: "Confirm Password",
                             type: "password",
                             required: "",
                             autocomplete: "current-password"
@@ -413,7 +454,38 @@ var render = function() {
                   )
                 ])
               ])
-        ]
+            : _vm._l(_vm.Response, function(res, i) {
+                return _c(
+                  "div",
+                  {
+                    key: i,
+                    staticClass:
+                      "flex text-md mt-8 mb-8 ml-4 mr-4 font-semibold"
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "w-full text-md font-semibold p-1 bg-red-500 rounded text-white mt-2 mb-3"
+                      },
+                      [
+                        _c("div", { staticClass: "flex justify-between" }, [
+                          _c("div", { staticClass: "ml-4 p-1" }, [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(res) +
+                                "!\n                    "
+                            )
+                          ])
+                        ])
+                      ]
+                    )
+                  ]
+                )
+              })
+        ],
+        2
       )
     ]
   )

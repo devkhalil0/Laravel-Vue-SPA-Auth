@@ -2004,8 +2004,7 @@ __webpack_require__.r(__webpack_exports__);
 
         localStorage.removeItem("auth", false);
 
-        _this.$store.commit('SET_ADMIN', false); // this.$store.commit('SET_AUTHUSER', null);
-
+        _this.$store.commit('SET_ADMIN', false);
       })["catch"](function (e) {
         _this.$store.commit('SET_TOAST', 'Warning');
 
