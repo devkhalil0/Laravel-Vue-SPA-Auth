@@ -38,10 +38,27 @@ export default {
            submit(){
                axios.post('/api/password/reset', this.form)
                .then((res) =>{
-                   console.log(res);
+                   if(res.data.success){
+                        this.$store.commit('SET_TOAST', 'Success');
+                        this.$store.commit('SET_ToastMessage', res.data.success);
+                        setTimeout(() => {
+                                this.$store.commit('SET_TOAST', false);
+                        }, 3000);
+                    }
+                    if(res.data.warning){
+                        this.$store.commit('SET_TOAST', 'Warning');
+                        this.$store.commit('SET_ToastMessage', res.data.warning);
+                        setTimeout(() => {
+                                this.$store.commit('SET_TOAST', false);
+                        }, 3000);
+                    }
                })
                .catch((e) =>{
-                   console.log(e);
+                   this.$store.commit('SET_TOAST', 'Warning');
+                    this.$store.commit('SET_ToastMessage', 'Something Is Wrong');
+                    setTimeout(() => {
+                            this.$store.commit('SET_TOAST', false);
+                    }, 3000);
                })
            }
        }

@@ -48,10 +48,36 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     submit: function submit() {
+      var _this = this;
+
       axios.post('/api/password/reset', this.form).then(function (res) {
-        console.log(res);
+        if (res.data.success) {
+          _this.$store.commit('SET_TOAST', 'Success');
+
+          _this.$store.commit('SET_ToastMessage', res.data.success);
+
+          setTimeout(function () {
+            _this.$store.commit('SET_TOAST', false);
+          }, 3000);
+        }
+
+        if (res.data.warning) {
+          _this.$store.commit('SET_TOAST', 'Warning');
+
+          _this.$store.commit('SET_ToastMessage', res.data.warning);
+
+          setTimeout(function () {
+            _this.$store.commit('SET_TOAST', false);
+          }, 3000);
+        }
       })["catch"](function (e) {
-        console.log(e);
+        _this.$store.commit('SET_TOAST', 'Warning');
+
+        _this.$store.commit('SET_ToastMessage', 'Something Is Wrong');
+
+        setTimeout(function () {
+          _this.$store.commit('SET_TOAST', false);
+        }, 3000);
       });
     }
   }

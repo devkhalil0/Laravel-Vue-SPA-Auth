@@ -26,6 +26,9 @@ class ForgotPasswordController extends Controller
     public function forgotpassword(Request $request){
         
         $user = User::where('email', $request->email)->first();
+        if($user === null){
+            return response()->json(['warning' => 'No User Found In This Email !']);
+        }
         $user->remember_token = Str::random(32);
         $user->save();
         Mail::to($user->email)->send(new MailVerifiaction($user));
