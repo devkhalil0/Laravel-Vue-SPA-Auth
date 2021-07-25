@@ -1,4 +1,4 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://khalilvaai.com/storage/Screenshort/1706252012643981.PNG" width="100%"></a></p>
+<p align="center"><a href="https://khalilvaai.com" target="_blank"><img src="https://khalilvaai.com/storage/Screenshort/1706252012643981.PNG" width="100%"></a></p>
 
 
 ## About This Repo
