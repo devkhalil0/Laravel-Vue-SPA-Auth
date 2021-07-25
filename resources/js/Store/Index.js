@@ -3,7 +3,7 @@ import router from '../Router/Index'
 export default {
 
     state: {
-        // Admin and Email Verify System On Off 
+        // Admin and Email Verify System On Off
         EmailVerifyStatus: false,
         AdminStatus: false,
 
@@ -17,7 +17,7 @@ export default {
         IsAdmin: false,
         // Email Verification
         EmailVerifyMessage: false,
-        
+
     },
     actions: {
         authUser ({ commit, dispatch }) {

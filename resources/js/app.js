@@ -11,6 +11,7 @@ Vue.component('dropdown', require('./Components/Dropdown/Dropdown.vue').default)
 Vue.component('toast-success', require('./Components/Toast/ToastSuccess.vue').default)
 Vue.component('toast-error', require('./Components/Toast/ToastError.vue').default)
 Vue.component('toast-warning', require('./Components/Toast/ToastWarning.vue').default)
+Vue.component('loading-spinner', require('./Components/LoadingButton/ButtonSpinner.vue').default)
 
 // Vue Router
 import router from './Router/Index'

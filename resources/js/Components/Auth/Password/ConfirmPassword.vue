@@ -41,7 +41,7 @@
                         </div>
 
                         <div class="flex items-center justify-end mt-4">
-                            <button type="submit" class="ml-4 inline-flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-400 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150">Submit</button>
+                            <loading-spinner :loadingSpinner="loadingSpinner" type="submit" class="ml-4 inline-flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-400 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150">Submit</loading-spinner>
                         </div>
                     </form>
                 </div>
@@ -67,7 +67,7 @@
             },
         data() {
             return {
-                loading: false,
+                loadingSpinner: false,
                 WaitTime: true,
                 Response: '',
                 form:{
@@ -96,9 +96,11 @@
                 })
             },
             submit(){
+                this.loadingSpinner = true;
                 axios.post('/api/password/change', this.form)
                 .then((res) =>{
                     if(res.data.success){
+                        this.loadingSpinner = false;
                         this.$store.commit('SET_TOAST', 'Success');
                         this.$store.commit('SET_ToastMessage', res.data.success);
                         setTimeout(() => {
@@ -107,17 +109,24 @@
                         if(this.CurrentRoute != 'Login'){
                             this.$router.push({name: 'Login'});
                         }
+                        this.form.password = '';
+                        this.form.password_confirmation = '';
                     }
                     if(res.data.errors){
+                        this.loadingSpinner = false;
                         this.$store.commit('SET_TOAST', 'Errors');
                         this.$store.commit('SET_ToastMessage', res.data.errors);
                         setTimeout(() => {
                                 this.$store.commit('SET_TOAST', false);
                         }, 3000);
+                        this.form.password = '';
+                        this.form.password_confirmation = '';
                     }
                 })
                 .catch(e => {
-                    
+                    this.loadingSpinner = false;
+                    this.form.password = '';
+                    this.form.password_confirmation = '';
                 })
             }
         }

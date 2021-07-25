@@ -56,7 +56,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      loading: false,
+      loadingSpinner: false,
       form: {
         name: '',
         email: '',
@@ -69,8 +69,11 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit() {
       var _this = this;
 
+      this.loadingSpinner = true;
       axios.post('api/register', this.form).then(function (res) {
         if (res.data.success) {
+          _this.loadingSpinner = false;
+
           _this.$store.commit('SET_TOAST', 'Success');
 
           _this.$store.commit('SET_ToastMessage', res.data.success);
@@ -93,6 +96,7 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         if (res.data.errors) {
+          _this.loadingSpinner = false;
           _this.form.password = '';
           _this.form.password_confirmation = '';
 
@@ -105,6 +109,8 @@ __webpack_require__.r(__webpack_exports__);
           }, 3000);
         }
       })["catch"](function (e) {
+        _this.loadingSpinner = false;
+
         _this.$store.commit('SET_TOAST', 'Warning');
 
         _this.$store.commit('SET_ToastMessage', 'Something Is Wrong !');
@@ -387,7 +393,25 @@ var render = function() {
                     })
                   ]),
                   _vm._v(" "),
-                  _vm._m(1)
+                  _c(
+                    "div",
+                    { staticClass: "flex items-center justify-end mt-4" },
+                    [
+                      _c(
+                        "loading-spinner",
+                        {
+                          staticClass:
+                            "ml-4 inline-flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-400 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150",
+                          attrs: {
+                            loadingSpinner: this.loadingSpinner,
+                            type: "submit"
+                          }
+                        },
+                        [_vm._v("Register")]
+                      )
+                    ],
+                    1
+                  )
                 ]
               )
             ])
@@ -404,22 +428,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "w-full bg-gray-100 p-3 text-lg" }, [
       _c("div", { staticClass: "ml-4" }, [_vm._v("Register")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex items-center justify-end mt-4" }, [
-      _c(
-        "button",
-        {
-          staticClass:
-            "ml-4 inline-flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-400 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150",
-          attrs: { type: "submit" }
-        },
-        [_vm._v("Register")]
-      )
     ])
   }
 ]

@@ -1974,13 +1974,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       showingNavigationDropdown: false
     };
   },
-  computed: {},
+  computed: {
+    AdminSystemCheck: function AdminSystemCheck() {
+      return this.$store.getters.AdminStatus;
+    }
+  },
   methods: {
     Logout: function Logout() {
       var _this = this;
@@ -2109,6 +2134,32 @@ __webpack_require__.r(__webpack_exports__);
         return 'origin-top';
       }
     }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Components/LoadingButton/ButtonSpinner.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Components/LoadingButton/ButtonSpinner.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    loadingSpinner: Boolean
   }
 });
 
@@ -2307,6 +2358,33 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
     name: "Forgot-Password",
     component: function component() {
       return __webpack_require__.e(/*! import() */ "resources_js_Components_Auth_Password_ForgotPassword_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Components/Auth/Password/ForgotPassword.vue */ "./resources/js/Components/Auth/Password/ForgotPassword.vue"));
+    },
+    beforeEnter: function beforeEnter(to, from, next) {
+      if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Authenticated) {
+        _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'You Are Authenticated !';
+        _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
+        setTimeout(function () {
+          _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
+        }, 2000);
+
+        if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.IsAdmin) {
+          if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.getters.AuthUser.role === 'admin') {
+            return next({
+              name: 'Admin-Dashboard'
+            });
+          } else {
+            return next({
+              name: 'Dashboard'
+            });
+          }
+        } else {
+          return next({
+            name: 'Dashboard'
+          });
+        }
+      } else {
+        next();
+      }
     }
   }, {
     path: "/confirm-password/:token",
@@ -2378,7 +2456,7 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
         next();
       }
     }
-  }, // For User 
+  }, // For User
   {
     path: "/dashboard",
     name: "Dashboard",
@@ -2453,7 +2531,7 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
         }
       }, 1000);
     },
-    // Others All User Routes 
+    // Others All User Routes
     children: [{
       path: "dashboard2",
       name: "Dashboard2",
@@ -2499,7 +2577,7 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
         }
       }, 1000);
     },
-    // Others All Admin Routes 
+    // Others All Admin Routes
     children: [{
       path: "/admin/dashboard2",
       name: "Admin-Dashboard2",
@@ -2537,7 +2615,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   state: {
-    // Admin and Email Verify System On Off 
+    // Admin and Email Verify System On Off
     EmailVerifyStatus: false,
     AdminStatus: false,
     // Toast Status
@@ -2663,7 +2741,8 @@ Vue.component('dropdown', __webpack_require__(/*! ./Components/Dropdown/Dropdown
 
 Vue.component('toast-success', __webpack_require__(/*! ./Components/Toast/ToastSuccess.vue */ "./resources/js/Components/Toast/ToastSuccess.vue").default);
 Vue.component('toast-error', __webpack_require__(/*! ./Components/Toast/ToastError.vue */ "./resources/js/Components/Toast/ToastError.vue").default);
-Vue.component('toast-warning', __webpack_require__(/*! ./Components/Toast/ToastWarning.vue */ "./resources/js/Components/Toast/ToastWarning.vue").default); // Vue Router
+Vue.component('toast-warning', __webpack_require__(/*! ./Components/Toast/ToastWarning.vue */ "./resources/js/Components/Toast/ToastWarning.vue").default);
+Vue.component('loading-spinner', __webpack_require__(/*! ./Components/LoadingButton/ButtonSpinner.vue */ "./resources/js/Components/LoadingButton/ButtonSpinner.vue").default); // Vue Router
 
  //  Vuex
 
@@ -20935,6 +21014,45 @@ component.options.__file = "resources/js/Components/Dropdown/Dropdown.vue"
 
 /***/ }),
 
+/***/ "./resources/js/Components/LoadingButton/ButtonSpinner.vue":
+/*!*****************************************************************!*\
+  !*** ./resources/js/Components/LoadingButton/ButtonSpinner.vue ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ButtonSpinner_vue_vue_type_template_id_b3f448aa___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ButtonSpinner.vue?vue&type=template&id=b3f448aa& */ "./resources/js/Components/LoadingButton/ButtonSpinner.vue?vue&type=template&id=b3f448aa&");
+/* harmony import */ var _ButtonSpinner_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ButtonSpinner.vue?vue&type=script&lang=js& */ "./resources/js/Components/LoadingButton/ButtonSpinner.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _ButtonSpinner_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _ButtonSpinner_vue_vue_type_template_id_b3f448aa___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ButtonSpinner_vue_vue_type_template_id_b3f448aa___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Components/LoadingButton/ButtonSpinner.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/Components/Toast/ToastError.vue":
 /*!******************************************************!*\
   !*** ./resources/js/Components/Toast/ToastError.vue ***!
@@ -21090,6 +21208,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Components/LoadingButton/ButtonSpinner.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/Components/LoadingButton/ButtonSpinner.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ButtonSpinner_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ButtonSpinner.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Components/LoadingButton/ButtonSpinner.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ButtonSpinner_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/Components/Toast/ToastError.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************!*\
   !*** ./resources/js/Components/Toast/ToastError.vue?vue&type=script&lang=js& ***!
@@ -21207,6 +21341,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dropdown_vue_vue_type_template_id_fe566b98___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dropdown_vue_vue_type_template_id_fe566b98___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Dropdown.vue?vue&type=template&id=fe566b98& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Components/Dropdown/Dropdown.vue?vue&type=template&id=fe566b98&");
+
+
+/***/ }),
+
+/***/ "./resources/js/Components/LoadingButton/ButtonSpinner.vue?vue&type=template&id=b3f448aa&":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/Components/LoadingButton/ButtonSpinner.vue?vue&type=template&id=b3f448aa& ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ButtonSpinner_vue_vue_type_template_id_b3f448aa___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ButtonSpinner_vue_vue_type_template_id_b3f448aa___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ButtonSpinner_vue_vue_type_template_id_b3f448aa___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ButtonSpinner.vue?vue&type=template&id=b3f448aa& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Components/LoadingButton/ButtonSpinner.vue?vue&type=template&id=b3f448aa&");
 
 
 /***/ }),
@@ -21388,8 +21539,72 @@ var render = function() {
                                       ]
                                     ),
                                     _vm._v(" "),
-                                    _vm.AuthUser.role === "user"
-                                      ? _c(
+                                    _vm.AdminSystemCheck
+                                      ? _c("div", [
+                                          _vm.AuthUser.role === "user"
+                                            ? _c(
+                                                "div",
+                                                [
+                                                  _c(
+                                                    "router-link",
+                                                    {
+                                                      staticClass:
+                                                        "text-left w-full text-lg block border-t px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out",
+                                                      class:
+                                                        _vm.CurrentRoute ===
+                                                        "Dashboard"
+                                                          ? "bg-gray-50"
+                                                          : "",
+                                                      attrs: {
+                                                        to: {
+                                                          name: "Dashboard"
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                            Dashboard\n                                        "
+                                                      )
+                                                    ]
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.AuthUser.role === "admin"
+                                            ? _c(
+                                                "div",
+                                                [
+                                                  _c(
+                                                    "router-link",
+                                                    {
+                                                      staticClass:
+                                                        "text-left w-full text-lg block border-t px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out",
+                                                      class:
+                                                        _vm.CurrentRoute ===
+                                                        "Dashboard"
+                                                          ? "bg-gray-50"
+                                                          : "",
+                                                      attrs: {
+                                                        to: {
+                                                          name:
+                                                            "Admin-Dashboard"
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                            Dashboard\n                                        "
+                                                      )
+                                                    ]
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e()
+                                        ])
+                                      : _c(
                                           "div",
                                           [
                                             _c(
@@ -21414,39 +21629,7 @@ var render = function() {
                                             )
                                           ],
                                           1
-                                        )
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.AuthUser.role === "admin"
-                                      ? _c(
-                                          "div",
-                                          [
-                                            _c(
-                                              "router-link",
-                                              {
-                                                staticClass:
-                                                  "text-left w-full text-lg block border-t px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out",
-                                                class:
-                                                  _vm.CurrentRoute ===
-                                                  "Dashboard"
-                                                    ? "bg-gray-50"
-                                                    : "",
-                                                attrs: {
-                                                  to: {
-                                                    name: "Admin-Dashboard"
-                                                  }
-                                                }
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "\n                                        Dashboard\n                                    "
-                                                )
-                                              ]
-                                            )
-                                          ],
-                                          1
-                                        )
-                                      : _vm._e(),
+                                        ),
                                     _vm._v(" "),
                                     _c(
                                       "div",
@@ -21468,7 +21651,7 @@ var render = function() {
                             ],
                             null,
                             false,
-                            1199501183
+                            3172312529
                           )
                         })
                       ],
@@ -21653,23 +21836,93 @@ var render = function() {
                                     ]
                                   ),
                                   _vm._v(" "),
-                                  _c(
-                                    "router-link",
-                                    {
-                                      staticClass:
-                                        "w-full focus:outline-none text-left text-lg block border-t px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out",
-                                      class:
-                                        _vm.CurrentRoute === "Dashboard"
-                                          ? "bg-gray-50"
-                                          : "",
-                                      attrs: { to: { name: "Dashboard" } }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                Dashboard\n                            "
-                                      )
-                                    ]
-                                  ),
+                                  _vm.AdminSystemCheck
+                                    ? _c("div", [
+                                        _vm.AuthUser.role === "user"
+                                          ? _c(
+                                              "div",
+                                              [
+                                                _c(
+                                                  "router-link",
+                                                  {
+                                                    staticClass:
+                                                      "text-left w-full text-lg block border-t px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out",
+                                                    class:
+                                                      _vm.CurrentRoute ===
+                                                      "Dashboard"
+                                                        ? "bg-gray-50"
+                                                        : "",
+                                                    attrs: {
+                                                      to: { name: "Dashboard" }
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                                        Dashboard\n                                    "
+                                                    )
+                                                  ]
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          : _vm._e(),
+                                        _vm._v(" "),
+                                        _vm.AuthUser.role === "admin"
+                                          ? _c(
+                                              "div",
+                                              [
+                                                _c(
+                                                  "router-link",
+                                                  {
+                                                    staticClass:
+                                                      "text-left w-full text-lg block border-t px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out",
+                                                    class:
+                                                      _vm.CurrentRoute ===
+                                                      "Dashboard"
+                                                        ? "bg-gray-50"
+                                                        : "",
+                                                    attrs: {
+                                                      to: {
+                                                        name: "Admin-Dashboard"
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                                        Dashboard\n                                    "
+                                                    )
+                                                  ]
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          : _vm._e()
+                                      ])
+                                    : _c(
+                                        "div",
+                                        [
+                                          _c(
+                                            "router-link",
+                                            {
+                                              staticClass:
+                                                "text-left w-full text-lg block border-t px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out",
+                                              class:
+                                                _vm.CurrentRoute === "Dashboard"
+                                                  ? "bg-gray-50"
+                                                  : "",
+                                              attrs: {
+                                                to: { name: "Dashboard" }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                    Dashboard\n                                "
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      ),
                                   _vm._v(" "),
                                   _c(
                                     "div",
@@ -21691,7 +21944,7 @@ var render = function() {
                           ],
                           null,
                           false,
-                          1640560107
+                          3279830299
                         )
                       })
                     ],
@@ -21852,6 +22105,45 @@ var render = function() {
       )
     ],
     1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Components/LoadingButton/ButtonSpinner.vue?vue&type=template&id=b3f448aa&":
+/*!***************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Components/LoadingButton/ButtonSpinner.vue?vue&type=template&id=b3f448aa& ***!
+  \***************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "button",
+    {
+      staticClass: "flex items-center",
+      attrs: { disabled: _vm.loadingSpinner }
+    },
+    [
+      _vm.loadingSpinner
+        ? _c("div", { staticClass: "btn-spinner mr-2" })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm._t("default")
+    ],
+    2
   )
 }
 var staticRenderFns = []

@@ -181,7 +181,7 @@
                       <td>
                         <h1 style="text-align: left">Dear {{ $user->name }}</h1>
                         <h2>Reset your password</h2>
-                        <h2>You are request for reseting your password , please click this button below !</h2>
+                        <h2>You have requested to reset your password, please click on the button below !</h2>
                         <div style="text-align:center; margin-bottom: 20px">
                            <a href="http://127.0.0.1:8000/confirm-password/{{ $user->remember_token }}">
                                 <button style="padding: 6px ; background-color: black; color: white; font-size: 15px">Reset Password</button>

@@ -69,6 +69,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      loadingSpinner: false,
       form: {
         email: 'khalilvaai@gmail.com',
         password: '11111111',
@@ -96,8 +97,11 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit() {
       var _this2 = this;
 
+      this.loadingSpinner = true;
       axios.post('api/login', this.form).then(function (res) {
         if (res.data.success) {
+          _this2.loadingSpinner = false;
+
           _this2.$store.commit('SET_TOAST', 'Success');
 
           _this2.$store.commit('SET_ToastMessage', res.data.success);
@@ -130,6 +134,7 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         if (res.data.errors) {
+          _this2.loadingSpinner = false;
           _this2.form.password = '';
 
           _this2.$store.commit('SET_TOAST', 'Errors');
@@ -141,6 +146,8 @@ __webpack_require__.r(__webpack_exports__);
           }, 3000);
         }
       })["catch"](function (e) {
+        _this2.loadingSpinner = false;
+
         _this2.$store.commit('SET_TOAST', 'Warning');
 
         _this2.$store.commit('SET_ToastMessage', 'Something Is Wrong !');
@@ -473,11 +480,14 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _c(
-                        "button",
+                        "loading-spinner",
                         {
                           staticClass:
                             "ml-4 inline-flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-400 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150",
-                          attrs: { type: "submit" }
+                          attrs: {
+                            loadingSpinner: _vm.loadingSpinner,
+                            type: "submit"
+                          }
                         },
                         [_vm._v("Login")]
                       )

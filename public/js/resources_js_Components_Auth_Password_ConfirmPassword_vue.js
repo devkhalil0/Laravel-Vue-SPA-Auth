@@ -79,7 +79,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      loading: false,
+      loadingSpinner: false,
       WaitTime: true,
       Response: '',
       form: {
@@ -112,8 +112,11 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit() {
       var _this3 = this;
 
+      this.loadingSpinner = true;
       axios.post('/api/password/change', this.form).then(function (res) {
         if (res.data.success) {
+          _this3.loadingSpinner = false;
+
           _this3.$store.commit('SET_TOAST', 'Success');
 
           _this3.$store.commit('SET_ToastMessage', res.data.success);
@@ -127,9 +130,14 @@ __webpack_require__.r(__webpack_exports__);
               name: 'Login'
             });
           }
+
+          _this3.form.password = '';
+          _this3.form.password_confirmation = '';
         }
 
         if (res.data.errors) {
+          _this3.loadingSpinner = false;
+
           _this3.$store.commit('SET_TOAST', 'Errors');
 
           _this3.$store.commit('SET_ToastMessage', res.data.errors);
@@ -137,8 +145,14 @@ __webpack_require__.r(__webpack_exports__);
           setTimeout(function () {
             _this3.$store.commit('SET_TOAST', false);
           }, 3000);
+          _this3.form.password = '';
+          _this3.form.password_confirmation = '';
         }
-      })["catch"](function (e) {});
+      })["catch"](function (e) {
+        _this3.loadingSpinner = false;
+        _this3.form.password = '';
+        _this3.form.password_confirmation = '';
+      });
     }
   }
 });
@@ -449,7 +463,25 @@ var render = function() {
                         })
                       ]),
                       _vm._v(" "),
-                      _vm._m(0)
+                      _c(
+                        "div",
+                        { staticClass: "flex items-center justify-end mt-4" },
+                        [
+                          _c(
+                            "loading-spinner",
+                            {
+                              staticClass:
+                                "ml-4 inline-flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-400 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150",
+                              attrs: {
+                                loadingSpinner: _vm.loadingSpinner,
+                                type: "submit"
+                              }
+                            },
+                            [_vm._v("Submit")]
+                          )
+                        ],
+                        1
+                      )
                     ]
                   )
                 ])
@@ -490,24 +522,7 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex items-center justify-end mt-4" }, [
-      _c(
-        "button",
-        {
-          staticClass:
-            "ml-4 inline-flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-400 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150",
-          attrs: { type: "submit" }
-        },
-        [_vm._v("Submit")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

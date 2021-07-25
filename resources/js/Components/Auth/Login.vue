@@ -41,7 +41,7 @@
                             <router-link :to="{name: 'Forgot-Password'}" class="text-blue-500 font-medium">
                                 Forgot Password ?
                             </router-link>
-                            <button type="submit" class="ml-4 inline-flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-400 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150">Login</button>
+                            <loading-spinner :loadingSpinner="loadingSpinner" type="submit" class="ml-4 inline-flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-400 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150">Login</loading-spinner>
                         </div>
                     </form>
                 </div>
@@ -57,6 +57,7 @@ export default {
             },
         data(){
             return{
+                loadingSpinner: false,
                 form:{
                     email: 'khalilvaai@gmail.com',
                     password: '11111111',
@@ -79,10 +80,12 @@ export default {
                 })
             },
             submit(){
+                this.loadingSpinner = true;
                 axios.post('api/login', this.form)
                 .then((res) => {
                     if(res.data.success)
                     {
+                    this.loadingSpinner = false;
                     this.$store.commit('SET_TOAST', 'Success');
                     this.$store.commit('SET_ToastMessage', res.data.success);
                     setTimeout(() => {
@@ -104,6 +107,7 @@ export default {
                     }
                     if(res.data.errors)
                     {
+                    this.loadingSpinner = false;
                     this.form.password = '';
                     this.$store.commit('SET_TOAST', 'Errors');
                     this.$store.commit('SET_ToastMessage', res.data.errors);
@@ -114,6 +118,7 @@ export default {
 
                 })
                 .catch((e) => {
+                    this.loadingSpinner = false;
                     this.$store.commit('SET_TOAST', 'Warning');
                     this.$store.commit('SET_ToastMessage', 'Something Is Wrong !');
                     setTimeout(() => {

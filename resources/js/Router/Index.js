@@ -34,6 +34,30 @@ export default new Router({
     path: "/forgot-password",
     name: "Forgot-Password",
     component: () => import("../Components/Auth/Password/ForgotPassword.vue"),
+    beforeEnter: (to, from, next) => {
+        if(store.state.Authenticated)
+            {
+                store.state.ToastMessage = 'You Are Authenticated !';
+                store.state.Toast = 'Warning';
+                setTimeout(() => {
+                    store.state.Toast = false;
+                }, 2000);
+                if(store.state.IsAdmin){
+                    if(store.getters.AuthUser.role === 'admin'){
+                        return next({ name: 'Admin-Dashboard'});
+                    }else{
+                        return next({ name: 'Dashboard'});
+                    }
+                }else{
+                    return next({ name: 'Dashboard'});
+                }
+
+            }
+            else{
+                next();
+
+            }
+        }
     },
     {
     path: "/confirm-password/:token",
@@ -97,7 +121,7 @@ export default new Router({
         }
     }
     },
-    // For User 
+    // For User
     {
     path: "/dashboard",
     name: "Dashboard",
@@ -161,7 +185,7 @@ export default new Router({
             }
         }, 1000);
     },
-    // Others All User Routes 
+    // Others All User Routes
     children: [
         {
             path: "dashboard2",
@@ -203,14 +227,14 @@ export default new Router({
             }
         }, 1000);
     },
-    // Others All Admin Routes 
+    // Others All Admin Routes
     children: [
         {
             path: "/admin/dashboard2",
             name: "Admin-Dashboard2",
             component: () => import("../Components/Admin/Dashboard.vue"),
         },
-    ]   
+    ]
     },
     {
       path: "/:catchAll(.*)",
