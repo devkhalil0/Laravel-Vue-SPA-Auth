@@ -9,8 +9,8 @@ Easyly You Can Install this on your system . just follow this step
 
 - Copy This Repo Link      https://github.com/khalilvaai/Laravel-Vue-SPA-Auth.git 
 - install composer
-- php artisan key:generate
 - cp .env.example .env 
+- php artisan key:generate
 - npm install 
 - npm run dev 
 - php artisan serve 
