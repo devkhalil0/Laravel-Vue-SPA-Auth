@@ -14,6 +14,7 @@ Easyly You Can Install this on your system . just follow this step
 - npm install 
 - npm run dev 
 - php artisan serve 
+
 Enable Admin And Mail Verification System Goto resources ->js ->Store ->Index.
 
         EmailVerifyStatus: false,
