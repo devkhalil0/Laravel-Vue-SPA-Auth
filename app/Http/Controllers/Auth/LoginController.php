@@ -50,20 +50,28 @@ class LoginController extends Controller
                 'password' => 'required|min:6|max:32'
             ]);
             if ($validator->fails()) {
-                
+
                 return response()->json(['errors' => $validator->errors()]);
             }
 
             if(Auth::attempt($request->only('email', 'password'))){
 
+                if(Auth::user()->email_verified_at === null){
+
+                    Auth::logout();
+                    return response()->json(['warning' => 'Your Email Is Not Verified !']);
+
+                }
+
                 return response()->json(['success' => 'Login Successfull !']);
+
             }else{
 
                 $validator->errors()->add('email', 'The provided credentials are wrong !!');
                 return response()->json(['errors' => $validator->errors()]);
             }
         }
-    
+
 
 
 }

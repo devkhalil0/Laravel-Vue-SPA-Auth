@@ -2397,38 +2397,6 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
     name: "Verify-Email",
     component: function component() {
       return __webpack_require__.e(/*! import() */ "resources_js_Components_Auth_VerifyEmail_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../Components/Auth/VerifyEmail.vue */ "./resources/js/Components/Auth/VerifyEmail.vue"));
-    },
-    beforeEnter: function beforeEnter(to, from, next) {
-      if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Authenticated) {
-        if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.AuthUser.email_verified_at === null) {
-          next();
-        } else {
-          _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'Your Email Verified !';
-          _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
-          setTimeout(function () {
-            _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
-          }, 2000);
-
-          if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.getters.AuthUser.role === 'admin') {
-            return next({
-              name: 'Admin-Dashboard'
-            });
-          } else {
-            return next({
-              name: 'Dashboard'
-            });
-          }
-        }
-      } else {
-        _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
-        _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'You are not authenticated !';
-        setTimeout(function () {
-          _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
-        }, 3000);
-        return next({
-          name: 'Login'
-        });
-      }
     }
   }, {
     path: '/confirm-email/:token',
@@ -2467,22 +2435,7 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
       setTimeout(function () {
         if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.AdminStatus) {
           if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Authenticated && _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.AuthUser.role === 'user') {
-            if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.EmailVerifyStatus === true) {
-              if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.AuthUser.email_verified_at === null) {
-                _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'Please Verify Your Email !';
-                _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
-                setTimeout(function () {
-                  _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
-                }, 2000);
-                return next({
-                  name: 'Verify-Email'
-                });
-              } else {
-                next();
-              }
-            } else {
-              next();
-            }
+            next();
           } else {
             _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Authenticated ? "'No Permission !'" : "You are not authenticated !";
             _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
@@ -2502,22 +2455,7 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
           }
         } else {
           if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Authenticated) {
-            if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.EmailVerifyStatus === true) {
-              if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.AuthUser.email_verified_at === null) {
-                _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'Please Verify Your Email !';
-                _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
-                setTimeout(function () {
-                  _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
-                }, 2000);
-                return next({
-                  name: 'Verify-Email'
-                });
-              } else {
-                next();
-              }
-            } else {
-              next();
-            }
+            next();
           } else {
             _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'No Permission !';
             _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
@@ -2549,22 +2487,7 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
     beforeEnter: function beforeEnter(to, from, next) {
       setTimeout(function () {
         if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Authenticated && _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.IsAdmin) {
-          if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.EmailVerifyStatus === true) {
-            if (_Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.AuthUser.email_verified_at === null) {
-              _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'Please Verify Your Email !';
-              _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
-              setTimeout(function () {
-                _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = false;
-              }, 2000);
-              return next({
-                name: 'Verify-Email'
-              });
-            } else {
-              next();
-            }
-          } else {
-            next();
-          }
+          next();
         } else {
           _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.ToastMessage = 'No Permission !';
           _Store_Index__WEBPACK_IMPORTED_MODULE_2__.default.state.Toast = 'Warning';
@@ -2616,7 +2539,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   state: {
     // Admin and Email Verify System On Off
-    EmailVerifyStatus: false,
+    EmailVerifyStatus: true,
     AdminStatus: false,
     // Toast Status
     Toast: false,
@@ -2860,7 +2783,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#slide-fade-enter-active {\n  transition: all .3s ease;\n}\n#slide-fade-leave-active {\n  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n#slide-fade-enter, .slide-fade-leave-to\n/* .slide-fade-leave-active below version 2.1.8 */ {\n  transform: translateX(10px);\n  opacity: 0;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#slide-fade-enter-active {\r\n  transition: all .3s ease;\n}\n#slide-fade-leave-active {\r\n  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n#slide-fade-enter, .slide-fade-leave-to\r\n/* .slide-fade-leave-active below version 2.1.8 */ {\r\n  transform: translateX(10px);\r\n  opacity: 0;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -2884,7 +2807,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.slide-fade-enter-active {\n    transition: all .3s ease;\n}\n.slide-fade-leave-active {\n    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.slide-fade-enter, .slide-fade-leave-to\n    /* .slide-fade-leave-active below version 2.1.8 */ {\n    transform: translateX(10px);\n    opacity: 0;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.slide-fade-enter-active {\r\n    transition: all .3s ease;\n}\n.slide-fade-leave-active {\r\n    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.slide-fade-enter, .slide-fade-leave-to\r\n    /* .slide-fade-leave-active below version 2.1.8 */ {\r\n    transform: translateX(10px);\r\n    opacity: 0;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -2908,7 +2831,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.slide-fade-enter-active {\n    transition: all .3s ease;\n}\n.slide-fade-leave-active {\n    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.slide-fade-enter, .slide-fade-leave-to\n    /* .slide-fade-leave-active below version 2.1.8 */ {\n    transform: translateX(10px);\n    opacity: 0;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.slide-fade-enter-active {\r\n    transition: all .3s ease;\n}\n.slide-fade-leave-active {\r\n    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.slide-fade-enter, .slide-fade-leave-to\r\n    /* .slide-fade-leave-active below version 2.1.8 */ {\r\n    transform: translateX(10px);\r\n    opacity: 0;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

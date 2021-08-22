@@ -49,6 +49,14 @@ export default {
                         }, 3000);
                         this.form.email = '';
                     }
+                    if(res.data.errors){
+                        this.loadingSpinner = false;
+                        this.$store.commit('SET_TOAST', 'Errors');
+                        this.$store.commit('SET_ToastMessage', res.data.errors);
+                        setTimeout(() => {
+                                this.$store.commit('SET_TOAST', false);
+                        }, 3000);
+                    }
                     if(res.data.warning){
                         this.loadingSpinner = false;
                         this.$store.commit('SET_TOAST', 'Warning');

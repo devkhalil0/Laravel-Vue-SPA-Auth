@@ -18,6 +18,22 @@
                     </div>
                 </div>
 
+                <div v-if="warningMessage" class="text-md font-semibold p-1 bg-red-400 rounded text-white mt-2 mb-3">
+                    <div class="flex justify-between">
+                        <div class="ml-4 p-1">
+                            {{ warningMessage }}
+                            <br>
+                            For Verify Your Email -
+                            <router-link :to="{name: 'Verify-Email'}" class="text-green-200 underline font-bold">Click Here</router-link>
+                        </div>
+                        <div @click="EmailVerifyWarningHide" class="mr-2 mt-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="container my-2 mx-auto px-2">
                     <form @submit.prevent="submit">
                         <div class="">
@@ -58,8 +74,9 @@ export default {
         data(){
             return{
                 loadingSpinner: false,
+                warningMessage: '',
                 form:{
-                    email: 'khalilvaai@gmail.com',
+                    email: 'dexoga@mailinator.com',
                     password: '11111111',
                     remember: false
                     }
@@ -105,6 +122,12 @@ export default {
                     }
                     this.$store.dispatch('checkAdmin');
                     }
+                    if(res.data.warning)
+                    {
+                    this.loadingSpinner = false;
+                    this.warningMessage = res.data.warning;
+                    this.form.password = '';
+                    }
                     if(res.data.errors)
                     {
                     this.loadingSpinner = false;
@@ -128,6 +151,9 @@ export default {
             },
             EmailVerifyMessageHide(){
                 this.$store.state.EmailVerifyMessage = false;
+            },
+            EmailVerifyWarningHide(){
+                this.warningMessage = '';
             }
         }
 }

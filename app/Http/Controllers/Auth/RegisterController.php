@@ -93,7 +93,7 @@ class RegisterController extends Controller
         $user->password = Hash::make($request->password);
         $user->remember_token = Str::random(32);
         $user->save();
-        // Mail::to($user->email)->queue(new MailVerifiaction($user));
+        Mail::to($user->email)->queue(new MailVerifiaction($user));
         return response()->json(['success' => 'Registration Successfull !']);
     }
 }

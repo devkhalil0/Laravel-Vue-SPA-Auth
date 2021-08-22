@@ -30,7 +30,7 @@ class MailVerifiaction extends Mailable
      */
     public function build()
     {
-        
+
         return $this->view('mail.EmailVerification');
     }
 }

@@ -68,34 +68,6 @@ export default new Router({
     path: "/verify-email",
     name: "Verify-Email",
     component: () => import("../Components/Auth/VerifyEmail.vue"),
-    beforeEnter: (to, from, next) => {
-        if(store.state.Authenticated)
-            {
-                if(store.state.AuthUser.email_verified_at === null){
-                    next();
-                }else{
-                    store.state.ToastMessage = 'Your Email Verified !';
-                    store.state.Toast = 'Warning';
-                    setTimeout(() => {
-                        store.state.Toast = false;
-                    }, 2000);
-                    if(store.getters.AuthUser.role === 'admin'){
-                        return next({ name: 'Admin-Dashboard'});
-                    }else{
-                        return next({ name: 'Dashboard'});
-                    }
-                }
-            }
-            else{
-                store.state.Toast = 'Warning';
-                store.state.ToastMessage = 'You are not authenticated !';
-                setTimeout(() => {
-                    store.state.Toast = false;
-                }, 3000);
-                return next({ name: 'Login'});
-
-            }
-        }
     },
     {
     path: '/confirm-email/:token',
@@ -130,21 +102,7 @@ export default new Router({
         setTimeout(() => {
             if(store.state.AdminStatus){
                 if(store.state.Authenticated && store.state.AuthUser.role === 'user'){
-                    if(store.state.EmailVerifyStatus === true){
-                        if(store.state.AuthUser.email_verified_at === null){
-
-                            store.state.ToastMessage = 'Please Verify Your Email !';
-                            store.state.Toast = 'Warning';
-                            setTimeout(() => {
-                                store.state.Toast = false;
-                            }, 2000);
-                            return next({ name: 'Verify-Email'});
-                        }else{
-                            next();
-                        }
-                    }else{
-                        next();
-                    }
+                    next();
                 }else{
                     store.state.ToastMessage = store.state.Authenticated ? "'No Permission !'" : "You are not authenticated !";
                     store.state.Toast = 'Warning';
@@ -159,21 +117,7 @@ export default new Router({
                 }
             }else{
                 if(store.state.Authenticated){
-                    if(store.state.EmailVerifyStatus === true){
-                        if(store.state.AuthUser.email_verified_at === null){
-
-                            store.state.ToastMessage = 'Please Verify Your Email !';
-                            store.state.Toast = 'Warning';
-                            setTimeout(() => {
-                                store.state.Toast = false;
-                            }, 2000);
-                            return next({ name: 'Verify-Email'});
-                        }else{
-                            next();
-                        }
-                    }else{
-                        next();
-                    }
+                    next();
                 }else{
                     store.state.ToastMessage = 'No Permission !';
                     store.state.Toast = 'Warning';
@@ -202,21 +146,7 @@ export default new Router({
     beforeEnter: (to, from, next) => {
         setTimeout(() => {
             if(store.state.Authenticated && store.state.IsAdmin){
-                if(store.state.EmailVerifyStatus === true){
-                    if(store.state.AuthUser.email_verified_at === null){
-
-                        store.state.ToastMessage = 'Please Verify Your Email !';
-                        store.state.Toast = 'Warning';
-                        setTimeout(() => {
-                            store.state.Toast = false;
-                        }, 2000);
-                        return next({ name: 'Verify-Email'});
-                    }else{
-                        next();
-                    }
-                }else{
-                    next();
-                }
+                next();
             }else{
                 store.state.ToastMessage = 'No Permission !';
                 store.state.Toast = 'Warning';

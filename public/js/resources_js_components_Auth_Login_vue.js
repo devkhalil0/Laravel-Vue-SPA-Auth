@@ -63,6 +63,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   metaInfo: {
     title: 'Login'
@@ -70,8 +86,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       loadingSpinner: false,
+      warningMessage: '',
       form: {
-        email: 'khalilvaai@gmail.com',
+        email: 'dexoga@mailinator.com',
         password: '11111111',
         remember: false
       }
@@ -133,6 +150,12 @@ __webpack_require__.r(__webpack_exports__);
           _this2.$store.dispatch('checkAdmin');
         }
 
+        if (res.data.warning) {
+          _this2.loadingSpinner = false;
+          _this2.warningMessage = res.data.warning;
+          _this2.form.password = '';
+        }
+
         if (res.data.errors) {
           _this2.loadingSpinner = false;
           _this2.form.password = '';
@@ -159,6 +182,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     EmailVerifyMessageHide: function EmailVerifyMessageHide() {
       this.$store.state.EmailVerifyMessage = false;
+    },
+    EmailVerifyWarningHide: function EmailVerifyWarningHide() {
+      this.warningMessage = '';
     }
   }
 });
@@ -289,6 +315,75 @@ var render = function() {
                         {
                           staticClass: "mr-2 mt-1",
                           on: { click: _vm.EmailVerifyMessageHide }
+                        },
+                        [
+                          _c(
+                            "svg",
+                            {
+                              staticClass: "bi bi-x",
+                              attrs: {
+                                xmlns: "http://www.w3.org/2000/svg",
+                                width: "25",
+                                height: "25",
+                                fill: "currentColor",
+                                viewBox: "0 0 16 16"
+                              }
+                            },
+                            [
+                              _c("path", {
+                                attrs: {
+                                  d:
+                                    "M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+                                }
+                              })
+                            ]
+                          )
+                        ]
+                      )
+                    ])
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.warningMessage
+              ? _c(
+                  "div",
+                  {
+                    staticClass:
+                      "text-md font-semibold p-1 bg-red-400 rounded text-white mt-2 mb-3"
+                  },
+                  [
+                    _c("div", { staticClass: "flex justify-between" }, [
+                      _c(
+                        "div",
+                        { staticClass: "ml-4 p-1" },
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(_vm.warningMessage) +
+                              "\n                        "
+                          ),
+                          _c("br"),
+                          _vm._v(
+                            "\n                        For Verify Your Email -\n                        "
+                          ),
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "text-green-200 underline font-bold",
+                              attrs: { to: { name: "Verify-Email" } }
+                            },
+                            [_vm._v("Click Here")]
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "mr-2 mt-1",
+                          on: { click: _vm.EmailVerifyWarningHide }
                         },
                         [
                           _c(

@@ -29,25 +29,71 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   metaInfo: {
     title: 'Verify Email Address'
   },
+  data: function data() {
+    return {
+      loadingSpinner: false,
+      form: {
+        email: ''
+      }
+    };
+  },
   methods: {
-    ResendLink: function ResendLink() {
+    submit: function submit() {
       var _this = this;
 
-      axios.post('/api/email/verify/resendlink').then(function (res) {
-        _this.$store.commit('SET_TOAST', 'Success');
+      this.loadingSpinner = true;
+      axios.post('/api/email/verify/resendlink', this.form).then(function (res) {
+        if (res.data.errors) {
+          _this.loadingSpinner = false;
 
-        _this.$store.commit('SET_ToastMessage', res.data.success);
+          _this.$store.commit('SET_TOAST', 'Errors');
 
-        setTimeout(function () {
-          _this.$store.commit('SET_TOAST', false);
-        }, 3000);
+          _this.$store.commit('SET_ToastMessage', res.data.errors);
 
-        _this.Logout();
+          setTimeout(function () {
+            _this.$store.commit('SET_TOAST', false);
+          }, 3000);
+        }
+
+        if (res.data.warning) {
+          _this.loadingSpinner = false;
+
+          _this.$store.commit('SET_TOAST', 'Warning');
+
+          _this.$store.commit('SET_ToastMessage', res.data.warning);
+
+          setTimeout(function () {
+            _this.$store.commit('SET_TOAST', false);
+          }, 3000);
+        }
+
+        if (res.data.success) {
+          _this.loadingSpinner = false;
+
+          _this.$store.commit('SET_TOAST', 'Success');
+
+          _this.$store.commit('SET_ToastMessage', res.data.success);
+
+          _this.form.email = '';
+          setTimeout(function () {
+            _this.$store.commit('SET_TOAST', false);
+          }, 3000);
+        }
       })["catch"](function (e) {
+        _this.loadingSpinner = false;
+
         _this.$store.commit('SET_TOAST', 'Warning');
 
         _this.$store.commit('SET_ToastMessage', 'Something Is Wrong');
@@ -56,23 +102,6 @@ __webpack_require__.r(__webpack_exports__);
           _this.$store.commit('SET_TOAST', false);
         }, 3000);
       });
-    },
-    Logout: function Logout() {
-      var _this2 = this;
-
-      axios.post('/api/logout').then(function (res) {
-        _this2.$store.commit('SET_AUTHENTICATED', false);
-
-        if (_this2.CurrentRoute != 'Login') {
-          _this2.$router.push({
-            name: 'Login'
-          });
-        }
-
-        localStorage.removeItem("auth", false);
-
-        _this2.$store.commit('SET_ADMIN', false);
-      })["catch"](function (e) {});
     }
   }
 });
@@ -193,12 +222,74 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c(
-                  "div",
+                  "form",
                   {
-                    staticClass: "ml-2 mt-2 text-blue-400 hover:underline",
-                    on: { click: _vm.ResendLink }
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.submit.apply(null, arguments)
+                      }
+                    }
                   },
-                  [_vm._v("Verify Email")]
+                  [
+                    _c("div", { staticClass: "mt-2" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "block font-medium text-sm text-gray-700"
+                        },
+                        [_vm._v("Registered Account Email")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.email,
+                            expression: "form.email"
+                          }
+                        ],
+                        staticClass:
+                          "mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow",
+                        attrs: {
+                          placeholder: "Your Account Email",
+                          type: "email",
+                          required: "",
+                          autocomplete: "current-email"
+                        },
+                        domProps: { value: _vm.form.email },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "email", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "items-end mt-4" },
+                      [
+                        _c(
+                          "loading-spinner",
+                          {
+                            staticClass:
+                              "inline-flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-400 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150",
+                            attrs: {
+                              loadingSpinner: _vm.loadingSpinner,
+                              type: "submit"
+                            }
+                          },
+                          [_vm._v("Submit")]
+                        )
+                      ],
+                      1
+                    )
+                  ]
                 )
               ])
             ])

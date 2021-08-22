@@ -107,6 +107,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   metaInfo: {
     title: 'Home'
+  },
+  methods: {
+    logout: function logout() {
+      axios.post('/api/logout');
+    }
   }
 });
 
@@ -232,6 +237,18 @@ var render = function() {
             ]
           )
         ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          on: {
+            click: function($event) {
+              return _vm.logout()
+            }
+          }
+        },
+        [_vm._v("Logput")]
       ),
       _vm._v(" "),
       _c(
@@ -442,7 +459,7 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                        Shop\n                    "
+                      "\n                            Shop\n                        "
                     )
                   ]
                 ),
@@ -478,7 +495,7 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                        Sponsor\n                    "
+                      "\n                            Sponsor\n                        "
                     )
                   ]
                 )
@@ -516,7 +533,7 @@ var staticRenderFns = [
         { staticClass: "mt-2 text-gray-600 dark:text-gray-400 text-sm" },
         [
           _vm._v(
-            "\n                            Laravel has wonderful, thorough documentation covering every aspect of the framework. Whether you are new to the framework or have previous experience with Laravel, we recommend reading all of the documentation from beginning to end.\n                        "
+            "\n                                Laravel has wonderful, thorough documentation covering every aspect of the framework. Whether you are new to the framework or have previous experience with Laravel, we recommend reading all of the documentation from beginning to end.\n                            "
           )
         ]
       )
@@ -547,7 +564,7 @@ var staticRenderFns = [
         { staticClass: "mt-2 text-gray-600 dark:text-gray-400 text-sm" },
         [
           _vm._v(
-            "\n                            Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process.\n                        "
+            "\n                                Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process.\n                            "
           )
         ]
       )
@@ -578,7 +595,7 @@ var staticRenderFns = [
         { staticClass: "mt-2 text-gray-600 dark:text-gray-400 text-sm" },
         [
           _vm._v(
-            "\n                            Laravel News is a community driven portal and newsletter aggregating all of the latest and most important news in the Laravel ecosystem, including new package releases and tutorials.\n                        "
+            "\n                                Laravel News is a community driven portal and newsletter aggregating all of the latest and most important news in the Laravel ecosystem, including new package releases and tutorials.\n                            "
           )
         ]
       )
@@ -594,7 +611,7 @@ var staticRenderFns = [
         { staticClass: "mt-2 text-gray-600 dark:text-gray-400 text-sm" },
         [
           _vm._v(
-            "\n                            Laravel's robust library of first-party tools and libraries, such as "
+            "\n                                Laravel's robust library of first-party tools and libraries, such as "
           ),
           _c(
             "a",
@@ -684,7 +701,7 @@ var staticRenderFns = [
             },
             [_vm._v("Telescope")]
           ),
-          _vm._v(", and more.\n                        ")
+          _vm._v(", and more.\n                            ")
         ]
       )
     ])

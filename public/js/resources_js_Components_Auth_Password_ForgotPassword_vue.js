@@ -66,6 +66,18 @@ __webpack_require__.r(__webpack_exports__);
           _this.form.email = '';
         }
 
+        if (res.data.errors) {
+          _this.loadingSpinner = false;
+
+          _this.$store.commit('SET_TOAST', 'Errors');
+
+          _this.$store.commit('SET_ToastMessage', res.data.errors);
+
+          setTimeout(function () {
+            _this.$store.commit('SET_TOAST', false);
+          }, 3000);
+        }
+
         if (res.data.warning) {
           _this.loadingSpinner = false;
 

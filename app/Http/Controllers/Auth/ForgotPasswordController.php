@@ -10,6 +10,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MailVerifiaction;
 use App\Mail\PasswordReset;
+use Illuminate\Support\Facades\Validator;
+
 
 class ForgotPasswordController extends Controller
 {
@@ -27,14 +29,21 @@ class ForgotPasswordController extends Controller
     // use SendsPasswordResetEmails;
     public function forgotpassword(Request $request){
 
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()]);
+        }
+
         $user = User::where('email', $request->email)->first();
         if($user === null){
             return response()->json(['warning' => 'No User Found In This Email !']);
         }
         $user->remember_token = Str::random(32);
         $user->save();
-        Mail::to($user->email)->send(new PasswordReset($user));
-        // Mail::to($user->email)->queue(new PasswordReset($user));
+        Mail::to($user->email)->queue(new PasswordReset($user));
         return response()->json(['success' => 'Password Reset Link Send Successfull !']);
 
     }
