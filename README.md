@@ -24,8 +24,19 @@ Also Enable Mail Send Code From app/Http/Controllers/Auth/RegisterController
 
 // Mail::to($user->email)->queue(new MailVerifiaction($user));
 
+Also Enable Chack Mail Verified System From app/Http/Controllers/Auth/LoginController
+
+// if(Auth::user()->email_verified_at === null){
+
+//     Auth::logout();
+//     return response()->json(['warning' => 'Your Email Is Not Verified !']);
+
+// }
+
 
 For Mail Send System i Used Queue,
+
+Queue_Connection = database  in  .env
 
 For Queue Work 
 Run this Commmand,

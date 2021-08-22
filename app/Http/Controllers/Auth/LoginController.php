@@ -56,12 +56,12 @@ class LoginController extends Controller
 
             if(Auth::attempt($request->only('email', 'password'))){
 
-                if(Auth::user()->email_verified_at === null){
+                // if(Auth::user()->email_verified_at === null){
 
-                    Auth::logout();
-                    return response()->json(['warning' => 'Your Email Is Not Verified !']);
+                //     Auth::logout();
+                //     return response()->json(['warning' => 'Your Email Is Not Verified !']);
 
-                }
+                // }
 
                 return response()->json(['success' => 'Login Successfull !']);
 

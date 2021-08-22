@@ -4,7 +4,7 @@ export default {
 
     state: {
         // Admin and Email Verify System On Off
-        EmailVerifyStatus: true,
+        EmailVerifyStatus: false,
         AdminStatus: false,
 
         // Toast Status

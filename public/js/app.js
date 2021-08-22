@@ -2539,7 +2539,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   state: {
     // Admin and Email Verify System On Off
-    EmailVerifyStatus: true,
+    EmailVerifyStatus: false,
     AdminStatus: false,
     // Toast Status
     Toast: false,
