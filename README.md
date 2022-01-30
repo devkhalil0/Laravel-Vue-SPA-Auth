@@ -15,30 +15,39 @@ Easyly You Can Install this on your system . just follow this step
 - npm run dev 
 - php artisan serve 
 
-Enable Admin And Mail Verification System Goto resources ->js ->Store ->Index.
+Enable Admin And Mail Verification System Go To `resources/js/Store/Index`.
 
-        EmailVerifyStatus: false,
-        AdminStatus: false,
+```
+EmailVerifyStatus: false,
+AdminStatus: false,
+```
 
-Also Enable Mail Send Code From app/Http/Controllers/Auth/RegisterController
+Also Enable Mail Send Code From `app/Http/Controllers/Auth/RegisterController`
 
+```
 // Mail::to($user->email)->queue(new MailVerifiaction($user));
+```
 
-Also Enable Chack Mail Verified System From app/Http/Controllers/Auth/LoginController
+Also Enable Chack Mail Verified System From `app/Http/Controllers/Auth/LoginController`
 
+```
 // if(Auth::user()->email_verified_at === null){
 
 //     Auth::logout();
 //     return response()->json(['warning' => 'Your Email Is Not Verified !']);
 
 // }
-
+```
 
 For Mail Send System i Used Queue,
 
+```
 Queue_Connection = database  in  .env
+```
 
 For Queue Work 
 Run this Commmand,
 
-- php artisan queue:work 
+```
+php artisan queue:work
+```
